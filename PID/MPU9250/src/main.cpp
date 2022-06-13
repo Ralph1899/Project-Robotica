@@ -29,8 +29,8 @@ int main()
         std::cout << "GYROSCOPE [X,Y,Z] [" << readings[X];
         std::cout << ", " << readings[Y] << ", " << readings[Z] << "]\n\n";
 
-        clock::sleep_milliseconds(100);
+        clock::sleep_milliseconds(500);
     }
-    
+
     return 0;
 }

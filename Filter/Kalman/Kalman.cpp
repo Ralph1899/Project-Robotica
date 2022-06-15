@@ -51,8 +51,8 @@ float Kalman::getAngle(float newAngle, float newRate, float deltaTime)
     float S = mP[0][0] + mR_measure;
     
     float K[2];
-    K[0] = mP[0][0];
-    K[1] = mP[1][0];
+    K[0] = mP[0][0] / S;
+    K[1] = mP[1][0] / S;
 
     mAngle = K[0] * y;
     mBias = K[1] * y;

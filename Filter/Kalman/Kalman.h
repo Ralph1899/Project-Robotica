@@ -12,7 +12,7 @@ private:
     float mBias; // The gyro  calculated by the Kalman filter - part of 2x1 state vector
     float mRate; // Unbiased rate calculated from the rate and the calculated bias
 
-    float P[2][2]; // Error covariance matrix
+    float mP[2][2]; // Error covariance matrix
 public:
     Kalman();
     ~Kalman() { };
@@ -25,7 +25,7 @@ public:
     float getQ_angle();
     float getQ_bias();
     float getR_measure();
-    float getAngle();
+    float getAngle(float newAngle, float newRate, float deltaTime);
     float getRate();
 };
 

@@ -7,6 +7,7 @@
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
+#include "../inc/Kalman.h"
 
 #define X 0
 #define Y 1
@@ -14,8 +15,15 @@
 
 int main()
 {
+    Kalman *pKalmanX, *pKalmanY, *pKalmanZ;
     MPU_9250 *sensor = new MPU_9250();
     double *readings = new double[3];
+
+    float accX;
+    float accY;
+    float accZ;
+
+    double roll = (180 / 1) * atan(accX / sqrt(sq(accY) + sq(accZ)));
 
     while (true)
     {

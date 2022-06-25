@@ -23,13 +23,22 @@ double calculate_pitch(double accX, double accY, double accZ)
     return calculate_roll(accY, accX, accZ);
 }
 
+/*
+    // Magnetometer not implemented yet...
+    double calculate_yaw(magX, magY)
+    {
+        return ((180 / M_PI) * atan2(magX, magY));
+    }
+*/
+
 int main()
 {
     // Reserving static memory for IMU sensor to write data to
     double *pSensorBuffer = new double[6];
+    //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
     // Creating Kalman filter objects for X- and Y-axis
-    Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman();
+    Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 
     // Setting up the MPU9250 sensor class
     MPU_9250 *pSensor = new MPU_9250();
@@ -46,6 +55,13 @@ int main()
     double *pGyrosY = &pSensorBuffer[4]; // Memory location [3-5] is used for Gyroscope Sensor
     double *pGyrosZ = &pSensorBuffer[5]; // Memory location [3-5] is used for Gyroscope Sensor
 
+/*
+    // Magnetometer not implemented yet...
+    double *pMagneX = &pSensorBuffer[6]; // Memory location [6-8] is used for Magnetometer
+    double *pMagneY = &pSensorBuffer[7]; // Memory location [6-8] is used for Magnetometer
+    double *pMagneZ = &pSensorBuffer[8]; // Memory location [6-8] is used for Magnetometer
+*/
+
     // The roll can be calculated with acceleration variables
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
     double roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
@@ -54,10 +70,19 @@ int main()
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
     double pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
 
+/*
+    // Magnetometer not implemented yet...
+    // The yaw can be calculated with magnitude measurements in X- and Y-direction
+    // Source ->
+    double yaw = calculate_yaw(*pMagneX, *pMagneY);
+*/
+
     pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
     pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
-
-    double gyroXrate = 0, gyroYrate = 0;
+/*
+    // Magnetometer not implemented yet...
+    pKalmanZ->setAngle(yaw); // Setting the initial Kalman angle for the Z-axis
+*/
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
@@ -65,25 +90,38 @@ int main()
     
     while (true)
     {
+        // Send trigger to sensor to update values in memory
         pSensor->getSensorReading();
 
-        dT = clock::time_difference_ms(timer) / 1000;
-        timer = clock::current_time_ms();
-
-        //dT = (clock::micros() - timer) / 1000000;
-        std::cout << "Time passed: " << dT << std::endl;
+        // Know the delta in time since previous time (in ms)
+        dT = clock::time_difference_ms(timer) / 1000; // deviding by 1000 for value in seconds (needed in kalman)
+        timer = clock::current_time_ms(); // Updating the current time
 
         //Angle from accelorometer
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
         pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
+    
+    /*
+        // Magnetometer not implemented yet...
+        // Agnle from magnetometer
+        yaw = calculate_yaw(*pMagneX, *pMagneY);
+    */
 
         // Angle from gyro
-        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT;
-        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT;
+        double gyroXrate += (((*pGyrosX) * RAD_TO_DEG) * dT);
+        double gyroYrate += (((*pGyrosY) * RAD_TO_DEG) * dT);
+    /*
+        // Magnetometer not implemented yet...
+        double gyroZrate += (((*pGyrosZ) * RAD_TO_DEG) * dT);
+    */
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
         double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+    /*
+        // Magnetometer not implemented yet...
+        double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
+    */
 
         //Angle from comp.
         //compRoll = (double)0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll;

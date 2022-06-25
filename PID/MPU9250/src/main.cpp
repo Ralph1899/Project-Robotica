@@ -66,7 +66,8 @@ int main()
     {
         pSensor->getSensorReading();
         
-        double dT = (double)(clock::micros() - timer) / 1000000; 
+        double dT = (double)(clock::micros() - timer) / 1000000;
+        std::cout << "Time passed: " << dT << std::endl; 
         timer = clock::micros();
         
         //Angle from accelorometer
@@ -86,8 +87,8 @@ int main()
         //compPitch = (double)0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch;
         //gyroYaw = (double)(gyroYaw + (pGyrosZ * dT));
 
-        std::cout << "Original Roll: " << roll << "\n";
-        std::cout << "Filtered Roll: " << kalRoll << "\n\n";
+        //std::cout << "Original Roll: " << roll << "\n";
+        //std::cout << "Filtered Roll: " << kalRoll << "\n\n";
 
         //std::cout << "Original Pitch: " << pitch << "\n";
         //std::cout << "Filtered Pitch: " << kalPitch << "\n\n";

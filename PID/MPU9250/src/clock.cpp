@@ -7,6 +7,8 @@ void clock::sleep_milliseconds(int milliseconds)
 
 double clock::micros()
 {
+    // Function implements arduino style of micros() function
+    // Source -> https://forums.raspberrypi.com/viewtopic.php?t=221829
    struct timeval tv;
    double t;
 

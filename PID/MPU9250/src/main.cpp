@@ -4,6 +4,7 @@
 */
 
 #include <iostream>
+#include <math.h>
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
@@ -145,101 +146,6 @@ void runPIDY(double kalPitch, double desired_angleY, double dT)
 
 }
 
-int main()
-{
-    Kalman *pKalmanX, *pKalmanY, *pKalmanZ;
-    MPU_9250 *sensor = new MPU_9250();
-    double *readings = new double[3];
-
-    sensor->getAccelReading(readings);
-    float accX = readings[X];
-    float accY = readings[Y];
-    float accZ = readings[Z];
-
-    sensor->getGyrosReading(readings);
-    float gyroX = readings[X];
-    float gyroY = readings[Y];
-    float gyroZ = readings[Z];
-
-    double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
-    double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
-
-    pKalmanX->setAngle(roll);
-    pKalmanY->setAngle(pitch);
-
-    double gyroXangle = roll;
-    double gyroYangle = pitch;
-    double compAngleX = roll;
-    double compAngleY = pitch;
-
-    double timer, compRoll, compPitch, gyroYaw;
-
-    sineArraySize = sizeof(table) / sizeof(int); 
-    int phaseShift = sineArraySize / 3;
-
-    currentStepXA = 0; 
-    currentStepXB = currentStepXA + phaseShift; 
-    currentStepXC = currentStepXB + phaseShift; 
-    
-    currentStepYA = 0; 
-    currentStepYB = currentStepYA + phaseShift; 
-    currentStepYC = currentStepYB + phaseShift; 
-    
-    sineArraySize--;
-
-    while (true)
-    {
-        sensor->getAccelReading(readings);
-        accX = readings[X]; 
-        accY = readings[Y];
-        accZ = readings[Z];
-
-        sensor->getGyrosReading(readings);
-        gyroX = readings[X];
-        gyroY = readings[Y];
-        gyroZ = readings[Z];
-
-        double dT = (double)(micros() - timer) / 1000000;
-        timer = micros();
-
-        //Angle from accelorometer
-        double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
-        double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
-
-        // Angle from gyro
-        double gyroXrate = gyroXrate + (gyroX * RAD_TO_DEG) * dT;
-        double gyroYrate = gyroYrate + (gyroY * RAD_TO_DEG) * dT;
-
-        // Angle from Kalman
-        double kalRoll = kalmanX->getAngle(roll, gyroXrate, dT);
-        double kalPitch = kalmanY->getAngle(pitch, gyroYrate, dT);
-
-        //Angle from comp.
-        compRoll = (double)0.96 * (compRoll + gyroY * dT) + 0.04 * roll;
-        compPitch = (double)0.96 * (compPitch + gyroX * dT) + 0.04 * pitch;
-        gyroYaw = (double)(gyroYaw + (gyroZ * dT));
-
-        runPIDX(kalRoll, 0, dT);
-        runPIDY(kalPitch, 0, dT);
-
-        if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
-        { 
-            runMotorX(); 
-            lastMotorXDelayTime = micros();
-        }
-
-        if ((micros() - lastMotorYDelayTime) > motorYDelayActual) 
-        { 
-            runMotorY(); 
-            lastMotorYDelayTime = micros(); 
-        }
-
-        clock::sleep_milliseconds(100);
-    }
-
-    return 0;
-}
-
 void runMotorX() 
 { 
     currentStepXA = currentStepXA + stepX; 
@@ -300,4 +206,99 @@ void runMotorY()
     std::cout << "curStepYA: " << currentStepYA << "\n";
     std::cout << "curStepYB: " << currentStepYB << "\n";
     std::cout << "curStepYC: " << currentStepYC << "\n";
+}
+
+int main()
+{
+    Kalman *pKalmanX, *pKalmanY;
+    MPU_9250 *sensor = new MPU_9250();
+    double *readings = new double[3];
+
+    sensor->getAccelReading(readings);
+    float accX = readings[X];
+    float accY = readings[Y];
+    float accZ = readings[Z];
+
+    sensor->getGyrosReading(readings);
+    float gyroX = readings[X];
+    float gyroY = readings[Y];
+    float gyroZ = readings[Z];
+
+    double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
+    double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
+
+    pKalmanX->setAngle(roll);
+    pKalmanY->setAngle(pitch);
+
+    //double gyroXangle = roll;
+    //double gyroYangle = pitch;
+    //double compAngleX = roll;
+    //double compAngleY = pitch;
+
+    double timer, compRoll, compPitch, gyroYaw;
+
+    sineArraySize = sizeof(table) / sizeof(int); 
+    int phaseShift = sineArraySize / 3;
+
+    currentStepXA = 0; 
+    currentStepXB = currentStepXA + phaseShift; 
+    currentStepXC = currentStepXB + phaseShift; 
+    
+    currentStepYA = 0; 
+    currentStepYB = currentStepYA + phaseShift; 
+    currentStepYC = currentStepYB + phaseShift; 
+    
+    sineArraySize--;
+
+    while (true)
+    {
+        sensor->getAccelReading(readings);
+        accX = readings[X]; 
+        accY = readings[Y];
+        accZ = readings[Z];
+
+        sensor->getGyrosReading(readings);
+        gyroX = readings[X];
+        gyroY = readings[Y];
+        gyroZ = readings[Z];
+
+        double dT = (double)(micros() - timer) / 1000000;
+        timer = micros();
+
+        //Angle from accelorometer
+        double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
+        double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
+
+        // Angle from gyro
+        double gyroXrate = gyroXrate + (gyroX * RAD_TO_DEG) * dT;
+        double gyroYrate = gyroYrate + (gyroY * RAD_TO_DEG) * dT;
+
+        // Angle from Kalman
+        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
+        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+
+        //Angle from comp.
+        compRoll = (double)0.96 * (compRoll + gyroY * dT) + 0.04 * roll;
+        compPitch = (double)0.96 * (compPitch + gyroX * dT) + 0.04 * pitch;
+        gyroYaw = (double)(gyroYaw + (gyroZ * dT));
+
+        runPIDX(kalRoll, 0, dT);
+        runPIDY(kalPitch, 0, dT);
+
+        if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
+        { 
+            runMotorX(); 
+            lastMotorXDelayTime = micros();
+        }
+
+        if ((micros() - lastMotorYDelayTime) > motorYDelayActual) 
+        { 
+            runMotorY(); 
+            lastMotorYDelayTime = micros(); 
+        }
+
+        clock::sleep_milliseconds(100);
+    }
+
+    return 0;
 }

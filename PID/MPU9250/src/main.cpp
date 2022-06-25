@@ -247,7 +247,7 @@ int main()
     //double compAngleX = roll;
     //double compAngleY = pitch;
 
-    double timer, compRoll, compPitch, gyroYaw;
+    double timer = micros(), compRoll, compPitch, gyroYaw;
     double gyroXrate = 0;
     double gyroYrate = 0;
 

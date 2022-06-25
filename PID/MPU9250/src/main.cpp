@@ -299,10 +299,10 @@ int main()
         runPIDX(kalRoll, 0, dT);
         runPIDY(kalPitch, 0, dT);
 
-        std::cout << "micros    : " <<micros() << "\n";
-        std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
-        std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
-        std::cout << "set delay : " <<motorXDelayActual << "\n";
+        //std::cout << "micros    : " <<micros() << "\n";
+        //std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
+        //std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
+        //std::cout << "set delay : " <<motorXDelayActual << "\n";
 
         if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
         { 

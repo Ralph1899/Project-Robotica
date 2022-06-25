@@ -13,12 +13,12 @@
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233 /* 180 / pi */
 
-void calculate_roll(double accX, double accY, double accZ)
+double calculate_roll(double accX, double accY, double accZ)
 {
     return ((180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
 }
 
-void calculate_pitch(double accX, double accY, double accZ)
+double calculate_pitch(double accX, double accY, double accZ)
 {
     return calculate_roll(accY, accX, accZ);
 }

@@ -298,27 +298,32 @@ int main()
         compPitch = (double)0.96 * (compPitch + gyroX * dT) + 0.04 * pitch;
         gyroYaw = (double)(gyroYaw + (gyroZ * dT));
 
-        runPIDX(kalRoll, 0, dT);
-        runPIDY(kalPitch, 0, dT);
+        std::cout << "Original Roll: " << roll << "\n";
+        std::cout << "Filtered Roll: " << kalRoll << "\n\n";
+
+        std::cout << "Original Pitch: " << roll << "\n";
+        std::cout << "Filtered Pitch: " << kalRoll << "\n\n";
+
+        //runPIDX(kalRoll, 0, dT);
+        //runPIDY(kalPitch, 0, dT);
 
         //std::cout << "micros    : " <<micros() << "\n";
         //std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
         //std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
         //std::cout << "set delay : " <<motorXDelayActual << "\n";
 
-        std::cout << "Run : " << zi << std::endl;
-        zi++;
-        if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
-        { 
-            runMotorX(); 
-            lastMotorXDelayTime = micros();
-        }
+        
+        //if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
+        //{ 
+        //    runMotorX(); 
+        //    lastMotorXDelayTime = micros();
+        //}
 
-        if ((micros() - lastMotorYDelayTime) > motorYDelayActual) 
-        { 
-            runMotorY(); 
-            lastMotorYDelayTime = micros(); 
-        }
+        //if ((micros() - lastMotorYDelayTime) > motorYDelayActual) 
+        //{ 
+        //    runMotorY(); 
+        //    lastMotorYDelayTime = micros(); 
+        //}
 
         clock::sleep_milliseconds(100);
     }

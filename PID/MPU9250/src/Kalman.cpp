@@ -38,25 +38,32 @@ void Kalman::setR_measure(float R_measure)
 
 float Kalman::getAngle(float newAngle, float newRate, float deltaTime)
 {
+    // Step 1:
     mRate = newRate - mBias;
     mAngle += deltaTime * mRate;
 
+    // Step 2:
     mP[0][0] += deltaTime * (deltaTime * mP[1][1] - mP[0][1] - mP[1][0] + mQ_angle); 
     mP[0][1] -= deltaTime * mP[1][1];
     mP[1][0] -= deltaTime * mP[1][1]; 
     mP[1][1] += deltaTime * mQ_bias;
 
+    // Step 3: Innovation
     float y = newAngle - mAngle;
 
+    // Step 4: Innovation covariance
     float S = mP[0][0] + mR_measure;
     
+    // Step 5: Kalman Gain
     float K[2];
     K[0] = mP[0][0] / S;
     K[1] = mP[1][0] / S;
 
+    // Step 6: Update the Angle
     mAngle = K[0] * y;
     mBias = K[1] * y;
 
+    // Step 7: Calculate estimation error covariance - Update the error covariance
     float P00_temp = mP[0][0];
     float P01_temp = mP[0][1];
 
@@ -65,6 +72,7 @@ float Kalman::getAngle(float newAngle, float newRate, float deltaTime)
     mP[1][0] -= K[1] * P00_temp;
     mP[1][1] -= K[1] * P01_temp;
 
+    // Step 8: Return filtered value
     return mAngle;
 }
 

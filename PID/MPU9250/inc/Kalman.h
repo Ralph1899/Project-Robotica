@@ -25,7 +25,12 @@ public:
     float getQ_angle();
     float getQ_bias();
     float getR_measure();
+    
+    // newAngle : float <latest calculated angle (roll, pitch, yaw)>
+    // newRate : float <latest calculated gyro measurement in degrees per second>
+    // deltaTime : float <delta in time since previous calculation in seconds>
     float getAngle(float newAngle, float newRate, float deltaTime);
+
     float getRate();
 };
 

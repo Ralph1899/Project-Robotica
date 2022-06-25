@@ -13,6 +13,16 @@
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233 /* 180 / pi */
 
+void calculate_roll(double accX, double accY, double accZ)
+{
+    return ((180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
+}
+
+void calculate_pitch(double accX, double accY, double accZ)
+{
+    return calculate_roll(accY, accX, accZ);
+}
+
 int main()
 {
     // Reserving static memory for IMU sensor to write data to
@@ -37,17 +47,17 @@ int main()
     double *pGyrosZ = &pSensorBuffer[5]; // Memory location [3-5] is used for Gyroscope Sensor
 
     // The roll can be calculated with acceleration variables
-    // The ptich can be calculated with acceleration variables
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
-    double roll = (180 / M_PI) * atan2(*pAccelX, sqrt(pow(*pAccelY, 2) + pow(*pAccelZ, 2)));
-    double pitch = (180 / M_PI) * atan2(*pAccelY, sqrt(pow(*pAccelX, 2) + pow(*pAccelZ, 2)));
+    double roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
 
-    // Setting the initial Kalman angles for the X- and Y-axis
-    pKalmanX->setAngle(roll);
-    pKalmanY->setAngle(pitch);
+    // The pitch can be calculated with acceleration variables
+    // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
+    double pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
+    
+    pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
+    pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
 
-    double gyroXrate = 0;
-    double gyroYrate = 0;
+    double gyroXrate = 0, gyroYrate = 0;
 
     // After initalizing, setting timer to current time
     double timer = clock::micros();
@@ -60,8 +70,8 @@ int main()
         timer = clock::micros();
         
         //Angle from accelorometer
-        double roll = (180 / M_PI) * atan2(*pAccelX, sqrt(pow(*pAccelY, 2) + pow(*pAccelZ, 2)));
-        double pitch = (180 / M_PI) * atan2(*pAccelY, sqrt(pow(*pAccelX, 2) + pow(*pAccelZ, 2)));
+        roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
+        pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
 
         // Angle from gyro
         gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT;

@@ -38,13 +38,13 @@ MPU_9250::MPU_9250()
 void MPU_9250::setAccelSensitivity(accel_sensitivity sensitivity)
 {
     pAccel = new Accelerometer(sensitivity);
-    std::cout << "Acceleration sensitivity set: " << sensitivity.c_str(); << "\n";
+    std::cout << "Acceleration sensitivity set: " << sensitivity.c_str() << "\n";
 }
 
 void MPU_9250::setGyrosSensitivity(gyros_sensitivity sensitivity)
 {
     pGyros = new Gyroscope(sensitivity);
-    std::cout << "Gyroscope sensitivity set: " << sensitivity.c_str(); << "\n";
+    std::cout << "Gyroscope sensitivity set: " << sensitivity.c_str() << "\n";
 }
 
 void MPU_9250::setMemoryBuffer(double *pMemoryLocation)

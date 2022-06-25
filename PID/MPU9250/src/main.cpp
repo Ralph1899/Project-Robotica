@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <math.h>
+#include <sys/time.h>
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
@@ -84,6 +85,18 @@ int table[] = {
     112, 114, 116, 117, 119, 121, 123, 125
 };
 int sineArraySize;
+
+double micros()
+{
+   struct timeval tv;
+   double t;
+
+   gettimeofday(&tv, 0);
+
+   t = (double)tv.tv_sec + ((double)tv.tv_usec / 1E6);
+
+   return t;
+}
 
 void runPIDX(double kalRoll, double desired_angleX, double dT) 
 {     
@@ -224,8 +237,8 @@ int main()
     float gyroY = readings[Y];
     float gyroZ = readings[Z];
 
-    double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
-    double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
+    double roll = (180 / M_PI) * atan(accX / sqrt(pow(accY, 2) + pow(accZ, 2)));
+    double pitch = (180 / M_PI) * atan(accY / sqrt(pow(accX, 2) + pow(accZ, 2)));
 
     pKalmanX->setAngle(roll);
     pKalmanY->setAngle(pitch);

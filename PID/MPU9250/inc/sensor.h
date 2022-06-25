@@ -13,14 +13,18 @@ class MPU_9250
 {
 private:
     int accel_gyro_handler, mag_handler, wake_handler, mag_wake_handler;
-    Accelerometer *accel;
-    Gyroscope *gyro;
+    Accelerometer *pAccel;
+    Gyroscope *pGyros;
+    double *pMemoryBuffer = nullptr;
 public:
     MPU_9250();
     ~MPU_9250() { };
 
-    void getAccelReading(double *readings);
-    void getGyrosReading(double *readings);
+    void setAccelSensitivity(accel_sensitivity sensitivity);
+    void setGyrosSensitivity(gyros_sensitivity sensitivity);
+    void setMemoryBuffer(double *pMemoryLocation);
+
+    void getSensorReading();
 };
 
 #endif // !SENSOR_H

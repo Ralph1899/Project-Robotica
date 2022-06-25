@@ -27,10 +27,7 @@ MPU_9250::MPU_9250()
 */
         clock::sleep_milliseconds(100);
 
-        accel = new Accelerometer(ACCEL_SENSITIVITY_2G);
-        gyro = new Gyroscope(GYRO_SENSITIVITY_250);
-
-        std::cout << "Ready to take readings!\n";
+        std::cout << "Initialised Sensor, please consider setting sensitivity!\n";
     }
     catch(const std::exception& e)
     {
@@ -38,21 +35,27 @@ MPU_9250::MPU_9250()
     }
 }
 
-
-void MPU_9250::getAccelReading(double *readings) 
+void MPU_9250::setAccelSensitivity(accel_sensitivity sensitivity)
 {
-    int x = 0, y = 1, z = 2; 
-
-    readings[x] = accel->getAcceleration(accel_gyro_handler, ACCEL_X);
-    readings[y] = accel->getAcceleration(accel_gyro_handler, ACCEL_Y);
-    readings[z] = accel->getAcceleration(accel_gyro_handler, ACCEL_Z);
+    pAccel = new Accelerometer(sensitivity);
 }
 
-void MPU_9250::getGyrosReading(double *readings) 
+void MPU_9250::setGyrosSensitivity(gyros_sensitivity sensitivity)
 {
-    int x = 0, y = 1, z = 2;
+    pGyros = new Gyroscope(sensitivity);
+}
 
-    readings[x] = gyro->getGyroscope(accel_gyro_handler, GYRO_X);
-    readings[y] = gyro->getGyroscope(accel_gyro_handler, GYRO_Y);
-    readings[z] = gyro->getGyroscope(accel_gyro_handler, GYRO_Z);
+void MPU_9250::setMemoryBuffer(double *pMemoryLocation)
+{
+    pMemoryBuffer = pMemoryLocation;
+}
+
+void MPU_9250::getSensorReading()
+{
+    pMemoryBuffer[0] = pAccel->getAcceleration(accel_gyro_handler, ACCEL_X);
+    pMemoryBuffer[1] = pAccel->getAcceleration(accel_gyro_handler, ACCEL_Y);
+    pMemoryBuffer[2] = pAccel->getAcceleration(accel_gyro_handler, ACCEL_Z);
+    pMemoryBuffer[3] = pGyros->getGyroscope(accel_gyro_handler, GYRO_X);
+    pMemoryBuffer[4] = pGyros->getGyroscope(accel_gyro_handler, GYRO_Y);
+    pMemoryBuffer[5] = pGyros->getGyroscope(accel_gyro_handler, GYRO_Z);
 }

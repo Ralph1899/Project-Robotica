@@ -14,10 +14,6 @@
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233
 
-#define X 0
-#define Y 1
-#define Z 2
-
 double micros()
 {
    struct timeval tv;
@@ -33,66 +29,56 @@ double micros()
 int main()
 {
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman();
+    
     MPU_9250 *sensor = new MPU_9250();
-    double *readings = new double[3];
+    sensor->setAccelSensitivity(ACCEL_SENSITIVITY_2G);
+    sensor->setGyrosSensitivity(GYRO_SENSITIVITY_250);
 
-    sensor->getAccelReading(readings);
-    float accX = readings[X];
-    float accY = readings[Y];
-    float accZ = readings[Z];
+    float *pSensorBuffer = new float[6];
 
-    sensor->getGyrosReading(readings);
-    float gyroX = readings[X];
-    float gyroY = readings[Y];
-    float gyroZ = readings[Z];
+    sensor->setMemoryBuffer(pSensorBuffer);
 
-    double roll = (180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
-    double pitch = (180 / M_PI) * atan2(accY, sqrt(pow(accX, 2) + pow(accZ, 2)));
+    float *pAccelX = &pSensorBuffer[0];
+    float *pAccelY = &pSensorBuffer[1];
+    float *pAccelZ = &pSensorBuffer[2];
+    float *pGyrosX = &pSensorBuffer[3];
+    float *pGyrosY = &pSensorBuffer[4];
+    float *pGyrosZ = &pSensorBuffer[5];
+
+    double roll = (180 / M_PI) * atan2(pAccelX, sqrt(pow(pAccelY, 2) + pow(pAccelZ, 2)));
+    double pitch = (180 / M_PI) * atan2(pAccelY, sqrt(pow(pAccelX, 2) + pow(pAccelZ, 2)));
 
     pKalmanX->setAngle(roll);
     pKalmanY->setAngle(pitch);
 
-    //double gyroXangle = roll;
-    //double gyroYangle = pitch;
-    //double compAngleX = roll;
-    //double compAngleY = pitch;
-
-    double timer = micros(), compRoll, compPitch, gyroYaw;
+    double compRoll, compPitch, gyroYaw;
     double gyroXrate = 0;
     double gyroYrate = 0;
-
+    double timer = micros();
 
     while (true)
     {
-        sensor->getAccelReading(readings);
-        accX = readings[X];
-        accY = readings[Y];
-        accZ = readings[Z];
-
-        sensor->getGyrosReading(readings);
-        gyroX = readings[X];
-        gyroY = readings[Y];
-        gyroZ = readings[Z];
-
-        double dT = (double)(micros() - timer) / 1000000;
+        sensor->getSensorReading();
+        
+        double dT = (double)(micros() - timer) / 1000000; 
         timer = micros();
-
+        
         //Angle from accelorometer
-        double roll = (180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
-        double pitch = (180 / M_PI) * atan2(accY, sqrt(pow(accX, 2) + pow(accZ, 2)));
+        double roll = (180 / M_PI) * atan2(pAccelX, sqrt(pow(pAccelY, 2) + pow(pAccelZ, 2)));
+        double pitch = (180 / M_PI) * atan2(pAccelY, sqrt(pow(pAccelX, 2) + pow(pAccelZ, 2)));
 
         // Angle from gyro
-        gyroXrate += (gyroX * RAD_TO_DEG) * dT;
-        gyroYrate += (gyroY * RAD_TO_DEG) * dT;
+        gyroXrate += (pGyrosX * RAD_TO_DEG) * dT;
+        gyroYrate += (pGyrosY * RAD_TO_DEG) * dT;
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
         double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
 
         //Angle from comp.
-        compRoll = (double)0.96 * (compRoll + gyroY * dT) + 0.04 * roll;
-        compPitch = (double)0.96 * (compPitch + gyroX * dT) + 0.04 * pitch;
-        gyroYaw = (double)(gyroYaw + (gyroZ * dT));
+        //compRoll = (double)0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll;
+        //compPitch = (double)0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch;
+        //gyroYaw = (double)(gyroYaw + (pGyrosZ * dT));
 
         std::cout << "Original Roll: " << roll << "\n";
         std::cout << "Filtered Roll: " << kalRoll << "\n\n";
@@ -100,26 +86,6 @@ int main()
         //std::cout << "Original Pitch: " << pitch << "\n";
         //std::cout << "Filtered Pitch: " << kalPitch << "\n\n";
 
-        //runPIDX(kalRoll, 0, dT);
-        //runPIDY(kalPitch, 0, dT);
-
-        //std::cout << "micros    : " <<micros() << "\n";
-        //std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
-        //std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
-        //std::cout << "set delay : " <<motorXDelayActual << "\n";
-
-        
-        //if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
-        //{ 
-        //    runMotorX(); 
-        //    lastMotorXDelayTime = micros();
-        //}
-
-        //if ((micros() - lastMotorYDelayTime) > motorYDelayActual) 
-        //{ 
-        //    runMotorY(); 
-        //    lastMotorYDelayTime = micros(); 
-        //}
 
         clock::sleep_milliseconds(1000);
     }

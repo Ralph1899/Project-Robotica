@@ -19,7 +19,7 @@
 #define GYRO_FSCALE_1000 0x02
 #define GYRO_FSCALE_2000 0x03
 
-enum gyro_sensitivity
+enum gyros_sensitivity
 {
     GYRO_SENSITIVITY_250 = 1310,
     GYRO_SENSITIVITY_500 = 655,
@@ -27,7 +27,7 @@ enum gyro_sensitivity
     GYRO_SENSITIVITY_2000 = 164
 };
 
-enum gyro_axis
+enum gyros_axis
 {
     GYRO_X = 0x43,
     GYRO_Y = 0x45,
@@ -40,10 +40,10 @@ private:
     double scaleFactor;
     double scaleGyro(int raw);
 public:
-    Gyroscope(gyro_sensitivity sensitivity);
+    Gyroscope(gyros_sensitivity sensitivity);
     ~Gyroscope() { };
 
-    double getGyroscope(int sensor, gyro_axis axis);
+    double getGyroscope(int sensor, gyros_axis axis);
 
 };
 

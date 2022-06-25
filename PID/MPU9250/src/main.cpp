@@ -93,7 +93,7 @@ double micros()
 
    gettimeofday(&tv, 0);
 
-   t = (double)tv.tv_sec + ((double)tv.tv_usec / 1E6);
+   t = (double)tv.tv_sec + (double)tv.tv_usec;
 
    return t;
 }
@@ -303,7 +303,7 @@ int main()
         std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
         std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
         std::cout << "set delay : " <<motorXDelayActual << "\n";
-        
+
         if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
         { 
             runMotorX(); 

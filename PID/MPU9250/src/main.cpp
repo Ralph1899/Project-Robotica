@@ -30,14 +30,14 @@ int main()
 
     // Creating Kalman filter objects for X- and Y-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman();
-    
+
     // Setting up the MPU9250 sensor class
     MPU_9250 *pSensor = new MPU_9250();
     pSensor->setAccelSensitivity(ACCEL_SENSITIVITY_2G); // Setting sensitivity to 2G (2/4/8/16G is possible)
     pSensor->setGyrosSensitivity(GYRO_SENSITIVITY_250); // Setting sensitivity to 250 (250/500/1000/2000 is possible)
     pSensor->setMemoryBuffer(pSensorBuffer); // Setting the memory location where the sensor can write to
 
-    // Setting pointers to each byte locations the IMU points to. 
+    // Setting pointers to each byte locations the IMU points to.
     // By updating the memory, these pointers point to the updated value!
     double *pAccelX = &pSensorBuffer[0]; // Memory location [0-2] is used for Acceleration Sensor
     double *pAccelY = &pSensorBuffer[1]; // Memory location [0-2] is used for Acceleration Sensor
@@ -53,7 +53,7 @@ int main()
     // The pitch can be calculated with acceleration variables
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
     double pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
-    
+
     pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
     pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
 
@@ -61,15 +61,16 @@ int main()
 
     // After initalizing, setting timer to current time
     double timer = clock::micros();
-
+    double dT = 0;
+    
     while (true)
     {
         pSensor->getSensorReading();
-        
-        double dT = (double)(clock::micros() - timer) / 1000000;
-        std::cout << "Time passed: " << dT << std::endl; 
+
+        dT = (clock::micros() - timer) / 1000000;
+        std::cout << "Time passed: " << dT << std::endl;
         timer = clock::micros();
-        
+
         //Angle from accelorometer
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
         pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);

@@ -301,8 +301,8 @@ int main()
         std::cout << "Original Roll: " << roll << "\n";
         std::cout << "Filtered Roll: " << kalRoll << "\n\n";
 
-        std::cout << "Original Pitch: " << roll << "\n";
-        std::cout << "Filtered Pitch: " << kalRoll << "\n\n";
+        std::cout << "Original Pitch: " << pitch << "\n";
+        std::cout << "Filtered Pitch: " << kalPitch << "\n\n";
 
         //runPIDX(kalRoll, 0, dT);
         //runPIDY(kalPitch, 0, dT);

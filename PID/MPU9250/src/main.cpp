@@ -9,6 +9,7 @@
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
 #include "../inc/Kalman.h"
+#include "../inc/pid.h"
 
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233 /* 180 / pi */
@@ -33,12 +34,33 @@ double calculate_pitch(double accX, double accY, double accZ)
 
 int main()
 {
+    // Desired angles, can be changed to tilt balance platform
+    int desiredAngleX = 0, desiredAngleY = 0/*desiredAngleZ = 0*/; 
+
     // Reserving static memory for IMU sensor to write data to
     double *pSensorBuffer = new double[6]; // When only accelorometer is used
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
-    // Creating Kalman filter objects for X- and Y-axis
+    // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
+
+    // Creating PID objects for X-, Y- and Z-axis
+    PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
+
+    //pPIDX->setP(45);
+    //pPIDX->setI(0.002);
+    //pPIDX->setD(2);
+    pPIDX->setPID(45, 0.002, 2);
+
+    //pPIDY->setP(35);
+    //pPIDY->setI(0.002);
+    //pPIDY->setD(1.5);
+    pPIDY->setPID(35, 0.002, 1.5);
+
+    //pPIDZ->setP(10);
+    //pPIDZ->setI(0.00);
+    //pPIDZ->setD(10);
+    //pPIDZ->setPID(10, 0.00, 10);
 
     // Setting up the MPU9250 sensor class
     MPU_9250 *pSensor = new MPU_9250();
@@ -108,10 +130,16 @@ int main()
         double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
-        //Angle from comp.
+        // Angle from comp.
         compRoll = (0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll);
         compPitch = (0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch);
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
+
+        // Calculate PID values for each axis
+        pPIDX->runPID(kalRoll, desiredAngleX, dT);
+        pPIDY->runPID(kalPitch, desiredAngleY, dT);
+        //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
+
 
         //std::cout << "Original Roll: " << roll << "\n";
         //std::cout << "Filtered Roll: " << kalRoll << "\n\n";

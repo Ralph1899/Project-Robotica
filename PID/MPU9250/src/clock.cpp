@@ -5,16 +5,13 @@ void clock::sleep_milliseconds(int milliseconds)
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-double clock::micros()
+std::chrono::steady_clock::time_point clock::current_time_ms()
 {
-    // Function implements arduino style of micros() function
-    // Source -> https://forums.raspberrypi.com/viewtopic.php?t=221829
-   struct timeval tv;
-   double t;
+    return std::chrono::steady_clock::time_point time_point = std::chrono::steady_clock::now();
+}
 
-   gettimeofday(&tv, 0);
-
-   t = (double)tv.tv_sec + (double)tv.tv_usec;
-
-   return t;
+std::chrono::milliseconds clock::time_difference_ms(std::chrono::steady_clock::time_point old_time)
+{
+    std::chrono::steady_clock::time_point current_time = current_time_ms();
+    std::chrono::duration_cast<std::chrono::milliseconds>(current_time - old_time);
 }

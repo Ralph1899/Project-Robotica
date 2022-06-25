@@ -75,7 +75,7 @@ int main()
     double *pAccelZ = &pSensorBuffer[2]; // Memory location [0-2] is used for Acceleration Sensor
     double *pGyrosX = &pSensorBuffer[3]; // Memory location [3-5] is used for Gyroscope Sensor
     double *pGyrosY = &pSensorBuffer[4]; // Memory location [3-5] is used for Gyroscope Sensor
-    double *pGyrosZ = &pSensorBuffer[5]; // Memory location [3-5] is used for Gyroscope Sensor
+    //double *pGyrosZ = &pSensorBuffer[5]; // Memory location [3-5] is used for Gyroscope Sensor
     //double *pMagneX = &pSensorBuffer[6]; // Memory location [6-8] is used for Magnetometer
     //double *pMagneY = &pSensorBuffer[7]; // Memory location [6-8] is used for Magnetometer
     //double *pMagneZ = &pSensorBuffer[8]; // Memory location [6-8] is used for Magnetometer
@@ -122,7 +122,7 @@ int main()
         // Angle from gyro
         double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
         double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
-        //double gyroZrate += (((*pGyrosZ) * RAD_TO_DEG) * dT);
+        //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
     
 
         // Angle from Kalman
@@ -131,8 +131,8 @@ int main()
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
         // Angle from comp.
-        compRoll = (0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll);
-        compPitch = (0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch);
+        compRoll = (0.96 * (compRoll + *pGyrosY * dT) + 0.04 * roll);
+        compPitch = (0.96 * (compPitch + *pGyrosX * dT) + 0.04 * pitch);
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis

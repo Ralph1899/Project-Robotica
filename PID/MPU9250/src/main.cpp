@@ -156,7 +156,6 @@ void runPIDY(double kalPitch, double desired_angleY, double dT)
 
     if (motorYDelayActual < 1000)
         motorYDelayActual = 1000;
-
 }
 
 void runMotorX() 
@@ -223,7 +222,7 @@ void runMotorY()
 
 int main()
 {
-    Kalman *pKalmanX, *pKalmanY;
+    Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman();
     MPU_9250 *sensor = new MPU_9250();
     double *readings = new double[3];
 

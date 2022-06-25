@@ -140,14 +140,6 @@ int main()
         pPIDY->runPID(kalPitch, desiredAngleY, dT);
         //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
 
-
-        //std::cout << "Original Roll: " << roll << "\n";
-        //std::cout << "Filtered Roll: " << kalRoll << "\n\n";
-
-        //std::cout << "Original Pitch: " << pitch << "\n";
-        //std::cout << "Filtered Pitch: " << kalPitch << "\n\n";
-
-
         clock::sleep_milliseconds(100);
     }
 

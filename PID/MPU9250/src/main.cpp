@@ -248,6 +248,8 @@ int main()
     //double compAngleY = pitch;
 
     double timer, compRoll, compPitch, gyroYaw;
+    double gyroXrate = 0;
+    double gyroYrate = 0;
 
     sineArraySize = sizeof(table) / sizeof(int); 
     int phaseShift = sineArraySize / 3;
@@ -282,8 +284,8 @@ int main()
         double pitch = (180 / M_PI) * atan(accY / sqrt(pow(accX, 2) + pow(accZ, 2)));
 
         // Angle from gyro
-        double gyroXrate = gyroXrate + (gyroX * RAD_TO_DEG) * dT;
-        double gyroYrate = gyroYrate + (gyroY * RAD_TO_DEG) * dT;
+        gyroXrate += (gyroX * RAD_TO_DEG) * dT;
+        gyroYrate += (gyroY * RAD_TO_DEG) * dT;
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);

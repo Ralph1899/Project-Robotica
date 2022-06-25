@@ -120,8 +120,8 @@ int main()
         //yaw = calculate_yaw(*pMagneX, *pMagneY);
 
         // Angle from gyro
-        double gyroXrate += (((*pGyrosX) * RAD_TO_DEG) * dT);
-        double gyroYrate += (((*pGyrosY) * RAD_TO_DEG) * dT);
+        double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
+        double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
         //double gyroZrate += (((*pGyrosZ) * RAD_TO_DEG) * dT);
     
 

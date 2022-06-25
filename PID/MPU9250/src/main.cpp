@@ -15,7 +15,7 @@
 
 double calculate_roll(double accX, double accY, double accZ)
 {
-    return ((180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
+    return ((180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2))));
 }
 
 double calculate_pitch(double accX, double accY, double accZ)

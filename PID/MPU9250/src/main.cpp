@@ -60,28 +60,30 @@ int main()
     double gyroXrate = 0, gyroYrate = 0;
 
     // After initalizing, setting timer to current time
-    double timer = clock::micros();
-    double dT = 0;
+    std::chrono::steady_clock::time_point timer = clock::current_time_ms();
+    std::chrono::milliseconds dT = 0;
     
     while (true)
     {
         pSensor->getSensorReading();
 
-        dT = (clock::micros() - timer) / 1000000;
+        dT = clock::time_difference_ms(timer);
+        timer = clock::current_time_ms();
+
+        //dT = (clock::micros() - timer) / 1000000;
         std::cout << "Time passed: " << dT << std::endl;
-        timer = clock::micros();
 
         //Angle from accelorometer
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
         pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
 
         // Angle from gyro
-        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT;
-        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT;
+        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT.count();
+        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT.count();
 
         // Angle from Kalman
-        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
-        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT.count());
+        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT.count());
 
         //Angle from comp.
         //compRoll = (double)0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll;

@@ -9,7 +9,8 @@ class clock
 {
 public:
     static void sleep_milliseconds(int milliseconds);
-    static double micros();
+    static std::chrono::steady_clock::time_point current_time_ms();
+    static std::chrono::milliseconds time_difference_ms(std::chrono::steady_clock::time_point old_time);
 };
 
 #endif // !CLOCK_H

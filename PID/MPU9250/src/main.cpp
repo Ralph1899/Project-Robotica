@@ -67,7 +67,7 @@ int main()
     {
         pSensor->getSensorReading();
 
-        dT = clock::time_difference_ms(timer);
+        dT = clock::time_difference_ms(timer) / 1000;
         timer = clock::current_time_ms();
 
         //dT = (clock::micros() - timer) / 1000000;

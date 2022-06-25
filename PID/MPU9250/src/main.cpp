@@ -61,7 +61,7 @@ int main()
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
-    std::chrono::milliseconds dT = 0;
+    std::chrono::milliseconds dT;
     
     while (true)
     {
@@ -71,7 +71,7 @@ int main()
         timer = clock::current_time_ms();
 
         //dT = (clock::micros() - timer) / 1000000;
-        std::cout << "Time passed: " << dT << std::endl;
+        std::cout << "Time passed: " << dT.count() << std::endl;
 
         //Angle from accelorometer
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);

@@ -7,7 +7,7 @@ void clock::sleep_milliseconds(int milliseconds)
 
 std::chrono::steady_clock::time_point clock::current_time_ms()
 {
-    return std::chrono::steady_clock::time_point time_point = std::chrono::steady_clock::now();
+    return std::chrono::steady_clock::now();
 }
 
 std::chrono::milliseconds clock::time_difference_ms(std::chrono::steady_clock::time_point old_time)

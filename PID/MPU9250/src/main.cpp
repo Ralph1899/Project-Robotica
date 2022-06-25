@@ -45,8 +45,8 @@ int main()
     double *pGyrosY = &pSensorBuffer[4];
     double *pGyrosZ = &pSensorBuffer[5];
 
-    double roll = (180 / M_PI) * atan2(pAccelX, sqrt(pow(pAccelY, 2) + pow(pAccelZ, 2)));
-    double pitch = (180 / M_PI) * atan2(pAccelY, sqrt(pow(pAccelX, 2) + pow(pAccelZ, 2)));
+    double roll = (180 / M_PI) * atan2(*pAccelX, sqrt(pow(*pAccelY, 2) + pow(*pAccelZ, 2)));
+    double pitch = (180 / M_PI) * atan2(*pAccelY, sqrt(pow(*pAccelX, 2) + pow(*pAccelZ, 2)));
 
     pKalmanX->setAngle(roll);
     pKalmanY->setAngle(pitch);
@@ -64,12 +64,12 @@ int main()
         timer = micros();
         
         //Angle from accelorometer
-        double roll = (180 / M_PI) * atan2(pAccelX, sqrt(pow(pAccelY, 2) + pow(pAccelZ, 2)));
-        double pitch = (180 / M_PI) * atan2(pAccelY, sqrt(pow(pAccelX, 2) + pow(pAccelZ, 2)));
+        double roll = (180 / M_PI) * atan2(*pAccelX, sqrt(pow(*pAccelY, 2) + pow(*pAccelZ, 2)));
+        double pitch = (180 / M_PI) * atan2(*pAccelY, sqrt(pow(*pAccelX, 2) + pow(*pAccelZ, 2)));
 
         // Angle from gyro
-        gyroXrate += (pGyrosX * RAD_TO_DEG) * dT;
-        gyroYrate += (pGyrosY * RAD_TO_DEG) * dT;
+        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT;
+        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT;
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);

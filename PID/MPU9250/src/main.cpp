@@ -34,16 +34,16 @@ int main()
     sensor->setAccelSensitivity(ACCEL_SENSITIVITY_2G);
     sensor->setGyrosSensitivity(GYRO_SENSITIVITY_250);
 
-    float *pSensorBuffer = new float[6];
+    double *pSensorBuffer = new double[6];
 
     sensor->setMemoryBuffer(pSensorBuffer);
 
-    float *pAccelX = &pSensorBuffer[0];
-    float *pAccelY = &pSensorBuffer[1];
-    float *pAccelZ = &pSensorBuffer[2];
-    float *pGyrosX = &pSensorBuffer[3];
-    float *pGyrosY = &pSensorBuffer[4];
-    float *pGyrosZ = &pSensorBuffer[5];
+    double *pAccelX = &pSensorBuffer[0];
+    double *pAccelY = &pSensorBuffer[1];
+    double *pAccelZ = &pSensorBuffer[2];
+    double *pGyrosX = &pSensorBuffer[3];
+    double *pGyrosY = &pSensorBuffer[4];
+    double *pGyrosZ = &pSensorBuffer[5];
 
     double roll = (180 / M_PI) * atan2(pAccelX, sqrt(pow(pAccelY, 2) + pow(pAccelZ, 2)));
     double pitch = (180 / M_PI) * atan2(pAccelY, sqrt(pow(pAccelX, 2) + pow(pAccelZ, 2)));

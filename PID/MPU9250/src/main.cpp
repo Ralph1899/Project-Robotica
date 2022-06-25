@@ -4,7 +4,6 @@
 */
 
 #include <iostream>
-#include <math.h>
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"

@@ -1,6 +1,8 @@
 #ifndef PID_H
 #define PID_H
 
+#include <math.h>
+
 class PID
 {
 private:

@@ -18,6 +18,8 @@
 #define Y 1
 #define Z 2
 
+int zi = 0;
+
 int motorXDelayActual, motorYDelayActual;
 long lastMotorXDelayTime, lastMotorYDelayTime;
 int currentStepXA, currentStepXB, currentStepXC;
@@ -304,6 +306,8 @@ int main()
         //std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
         //std::cout << "set delay : " <<motorXDelayActual << "\n";
 
+        std::cout << "Run : " << zi << std::endl;
+        zi++;
         if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
         { 
             runMotorX(); 

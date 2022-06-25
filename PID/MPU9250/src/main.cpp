@@ -61,7 +61,7 @@ int main()
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
-    std::chrono::milliseconds dT;
+    double dT;
     
     while (true)
     {
@@ -71,19 +71,19 @@ int main()
         timer = clock::current_time_ms();
 
         //dT = (clock::micros() - timer) / 1000000;
-        std::cout << "Time passed: " << dT.count() << std::endl;
+        std::cout << "Time passed: " << dT << std::endl;
 
         //Angle from accelorometer
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
         pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
 
         // Angle from gyro
-        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT.count();
-        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT.count();
+        gyroXrate += (*pGyrosX * RAD_TO_DEG) * dT;
+        gyroYrate += (*pGyrosY * RAD_TO_DEG) * dT;
 
         // Angle from Kalman
-        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT.count());
-        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT.count());
+        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
+        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
 
         //Angle from comp.
         //compRoll = (double)0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll;

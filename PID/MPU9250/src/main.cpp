@@ -279,8 +279,8 @@ int main()
         timer = micros();
 
         //Angle from accelorometer
-        double roll = (180 / M_PI) * atan(accX / sqrt(sq(accY) + sq(accZ)));
-        double pitch = (180 / M_PI) * atan(accY / sqrt(sq(accX) + sq(accZ)));
+        double roll = (180 / M_PI) * atan(accX / sqrt(pow(accY, 2) + pow(accZ, 2)));
+        double pitch = (180 / M_PI) * atan(accY / sqrt(pow(accX, 2) + pow(accZ, 2)));
 
         // Angle from gyro
         double gyroXrate = gyroXrate + (gyroX * RAD_TO_DEG) * dT;

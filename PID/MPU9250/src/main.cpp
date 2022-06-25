@@ -9,6 +9,7 @@
 #include "../inc/clock.h"
 #include "../inc/Kalman.h"
 #include "../inc/pid.h"
+#include "../inc/motor.h"
 
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233 /* 180 / pi */

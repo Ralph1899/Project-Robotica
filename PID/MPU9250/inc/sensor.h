@@ -2,6 +2,7 @@
 #define SENSOR_H
 
 #include <iostream>
+#include <string>
 
 #include "../inc/accel.h"
 #include "../inc/clock.h"

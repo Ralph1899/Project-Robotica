@@ -46,8 +46,8 @@ int main()
     float gyroY = readings[Y];
     float gyroZ = readings[Z];
 
-    double roll = (180 / M_PI) * atan2(accX / sqrt(pow(accY, 2) + pow(accZ, 2)));
-    double pitch = (180 / M_PI) * atan2(accY / sqrt(pow(accX, 2) + pow(accZ, 2)));
+    double roll = (180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
+    double pitch = (180 / M_PI) * atan2(accY, sqrt(pow(accX, 2) + pow(accZ, 2)));
 
     pKalmanX->setAngle(roll);
     pKalmanY->setAngle(pitch);
@@ -78,8 +78,8 @@ int main()
         timer = micros();
 
         //Angle from accelorometer
-        double roll = (180 / M_PI) * atan2(accX / sqrt(pow(accY, 2) + pow(accZ, 2)));
-        double pitch = (180 / M_PI) * atan2(accY / sqrt(pow(accX, 2) + pow(accZ, 2)));
+        double roll = (180 / M_PI) * atan2(accX, sqrt(pow(accY, 2) + pow(accZ, 2)));
+        double pitch = (180 / M_PI) * atan2(accY, sqrt(pow(accX, 2) + pow(accZ, 2)));
 
         // Angle from gyro
         gyroXrate += (gyroX * RAD_TO_DEG) * dT;

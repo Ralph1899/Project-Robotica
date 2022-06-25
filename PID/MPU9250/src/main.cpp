@@ -266,7 +266,6 @@ int main()
 
     while (true)
     {
-	    std::cout << "New loop\n";
         sensor->getAccelReading(readings);
         accX = readings[X];
         accY = readings[Y];
@@ -300,10 +299,11 @@ int main()
         runPIDX(kalRoll, 0, dT);
         runPIDY(kalPitch, 0, dT);
 
-        std::cout << micros() << "\n";
-        std::cout << lastMotorXDelayTime << "\n";
-        std::cout << micros() - lastMotorXDelayTime << "\n\n";
-        std::cout << motorXDelayActual << "\n";
+        std::cout << "micros    : " <<micros() << "\n";
+        std::cout << "lastXdelay: " <<lastMotorXDelayTime << "\n";
+        std::cout << "subtracted: " <<micros() - lastMotorXDelayTime << "\n\n";
+        std::cout << "set delay : " <<motorXDelayActual << "\n";
+        
         if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
         { 
             runMotorX(); 

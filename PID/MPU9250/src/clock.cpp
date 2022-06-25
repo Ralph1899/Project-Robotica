@@ -10,8 +10,8 @@ std::chrono::steady_clock::time_point clock::current_time_ms()
     return std::chrono::steady_clock::now();
 }
 
-std::chrono::milliseconds clock::time_difference_ms(std::chrono::steady_clock::time_point old_time)
+double clock::time_difference_ms(std::chrono::steady_clock::time_point old_time)
 {
     std::chrono::steady_clock::time_point current_time = current_time_ms();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(current_time - old_time);
+    return std::chrono::duration_cast<std::chrono::milliseconds>(current_time - old_time).count();
 }

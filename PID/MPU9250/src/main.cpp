@@ -34,7 +34,7 @@ double calculate_pitch(double accX, double accY, double accZ)
 int main()
 {
     // Reserving static memory for IMU sensor to write data to
-    double *pSensorBuffer = new double[6];
+    double *pSensorBuffer = new double[6]; // When only accelorometer is used
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
     // Creating Kalman filter objects for X- and Y-axis
@@ -54,13 +54,10 @@ int main()
     double *pGyrosX = &pSensorBuffer[3]; // Memory location [3-5] is used for Gyroscope Sensor
     double *pGyrosY = &pSensorBuffer[4]; // Memory location [3-5] is used for Gyroscope Sensor
     double *pGyrosZ = &pSensorBuffer[5]; // Memory location [3-5] is used for Gyroscope Sensor
+    //double *pMagneX = &pSensorBuffer[6]; // Memory location [6-8] is used for Magnetometer
+    //double *pMagneY = &pSensorBuffer[7]; // Memory location [6-8] is used for Magnetometer
+    //double *pMagneZ = &pSensorBuffer[8]; // Memory location [6-8] is used for Magnetometer
 
-/*
-    // Magnetometer not implemented yet...
-    double *pMagneX = &pSensorBuffer[6]; // Memory location [6-8] is used for Magnetometer
-    double *pMagneY = &pSensorBuffer[7]; // Memory location [6-8] is used for Magnetometer
-    double *pMagneZ = &pSensorBuffer[8]; // Memory location [6-8] is used for Magnetometer
-*/
 
     // The roll can be calculated with acceleration variables
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
@@ -70,24 +67,20 @@ int main()
     // Source -> http://robo.sntiitk.in/2017/12/21/Beginners-Guide-to-IMU.html
     double pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
 
-/*
-    // Magnetometer not implemented yet...
     // The yaw can be calculated with magnitude measurements in X- and Y-direction
     // Source ->
-    double yaw = calculate_yaw(*pMagneX, *pMagneY);
-*/
+    //double yaw = calculate_yaw(*pMagneX, *pMagneY);
 
     pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
     pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
-/*
-    // Magnetometer not implemented yet...
-    pKalmanZ->setAngle(yaw); // Setting the initial Kalman angle for the Z-axis
-*/
+    //pKalmanZ->setAngle(yaw); // Setting the initial Kalman angle for the Z-axis
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
     double dT;
     
+    double compRoll, compPitch/*, gyroYaw*/;
+
     while (true)
     {
         // Send trigger to sensor to update values in memory
@@ -101,32 +94,24 @@ int main()
         roll = calculate_roll(*pAccelX, *pAccelY, *pAccelZ);
         pitch = calculate_pitch(*pAccelX, *pAccelY, *pAccelZ);
     
-    /*
-        // Magnetometer not implemented yet...
-        // Agnle from magnetometer
-        yaw = calculate_yaw(*pMagneX, *pMagneY);
-    */
+        // Angle from magnetometer
+        //yaw = calculate_yaw(*pMagneX, *pMagneY);
 
         // Angle from gyro
         double gyroXrate += (((*pGyrosX) * RAD_TO_DEG) * dT);
         double gyroYrate += (((*pGyrosY) * RAD_TO_DEG) * dT);
-    /*
-        // Magnetometer not implemented yet...
-        double gyroZrate += (((*pGyrosZ) * RAD_TO_DEG) * dT);
-    */
+        //double gyroZrate += (((*pGyrosZ) * RAD_TO_DEG) * dT);
+    
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
         double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
-    /*
-        // Magnetometer not implemented yet...
-        double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
-    */
+        //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
         //Angle from comp.
-        //compRoll = (double)0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll;
-        //compPitch = (double)0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch;
-        //gyroYaw = (double)(gyroYaw + (pGyrosZ * dT));
+        compRoll = (0.96 * (compRoll + pGyrosY * dT) + 0.04 * roll);
+        compPitch = (0.96 * (compPitch + pGyrosX * dT) + 0.04 * pitch);
+        //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         //std::cout << "Original Roll: " << roll << "\n";
         //std::cout << "Filtered Roll: " << kalRoll << "\n\n";

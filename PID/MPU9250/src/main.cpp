@@ -97,7 +97,7 @@ int main()
         //std::cout << "Filtered Pitch: " << kalPitch << "\n\n";
 
 
-        clock::sleep_milliseconds(1000);
+        clock::sleep_milliseconds(100);
     }
 
     return 0;

@@ -273,7 +273,7 @@ void runMotorX()
 
 void runMotorY()
 {
-    currentStepYA = currentStepYA + stePY;
+    currentStepYA = currentStepYA + stepY;
 
     if(currentStepYB > sineArraySize)
      currentStepYA = 0; 

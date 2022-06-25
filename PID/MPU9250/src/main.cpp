@@ -5,7 +5,6 @@
 
 #include <iostream>
 #include <math.h>
-#include <sys/time.h>
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
@@ -13,18 +12,6 @@
 
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233
-
-double micros()
-{
-   struct timeval tv;
-   double t;
-
-   gettimeofday(&tv, 0);
-
-   t = (double)tv.tv_sec + (double)tv.tv_usec;
-
-   return t;
-}
 
 int main()
 {
@@ -54,14 +41,14 @@ int main()
     double compRoll, compPitch, gyroYaw;
     double gyroXrate = 0;
     double gyroYrate = 0;
-    double timer = micros();
+    double timer = clock::micros();
 
     while (true)
     {
         sensor->getSensorReading();
         
-        double dT = (double)(micros() - timer) / 1000000; 
-        timer = micros();
+        double dT = (double)(clock::micros() - timer) / 1000000; 
+        timer = clock::micros();
         
         //Angle from accelorometer
         double roll = (180 / M_PI) * atan2(*pAccelX, sqrt(pow(*pAccelY, 2) + pow(*pAccelZ, 2)));

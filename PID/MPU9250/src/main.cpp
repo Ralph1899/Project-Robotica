@@ -302,6 +302,7 @@ int main()
 
         std::cout << micros() << "\n";
         std::cout << lastMotorXDelayTime << "\n";
+        std::cout << microc() - lastMotorXDelayTime << "\n\n";
         std::cout << motorXDelayActual << "\n";
         if ((micros() - lastMotorXDelayTime) > motorXDelayActual) 
         { 

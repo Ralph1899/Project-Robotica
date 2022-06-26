@@ -19,18 +19,7 @@ void Motor::setupServo(int gpioPin)
     mGPIO = gpioPin;
     std::cout << "Setting servo to starting angle " << mAngle << "!\n";
     updateServo();
-    clock::sleep_milliseconds(1000);
-    calibration();
-}
-
-void Motor::calibration()
-{
-    for (int i = 510; i > 490; i--)
-    {
-        gpioServo(mGPIO, i);
-        std::cout << "Servo value: " << i << "\n";
-        clock::sleep_milliseconds(1000);
-    }
+    clock::sleep_milliseconds(10);
 }
 
 void Motor::updateServo()

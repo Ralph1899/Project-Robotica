@@ -13,7 +13,6 @@ private:
     int mMinimum = 0, mMaximum = 0;
 
     void setupServo(int gpioPin);
-    void calibration();
     void updateServo();
 public:
     Motor();

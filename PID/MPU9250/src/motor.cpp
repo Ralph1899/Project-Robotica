@@ -38,7 +38,7 @@ void Motor::calibration()
     {
         gpioServo(mGPIO, i);
         std::cout << "Servo value: " << i << "\n";
-        clock::sleep_milliseconds(10);
+        clock::sleep_milliseconds(1);
     }
 }
 

@@ -155,11 +155,12 @@ int main()
         //pPIDY->runPID(kalPitch, desiredAngleY, dT);
         //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
 
-        std::cout << "roll    : " << roll << std::endl;
+        //std::cout << "roll    : " << roll << std::endl;
         std::cout << "compRoll: " << compRoll << std::endl;
-        std::cout << "x       : " << x << std::endl;
+        //std::cout << "x       : " << x << std::endl;
+        //std::cout << std::endl;
 
-        clock::sleep_milliseconds(100);
+        clock::sleep_milliseconds(1000);
     }
 
     return 0;

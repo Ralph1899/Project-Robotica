@@ -25,11 +25,11 @@ void Motor::setupServo(int gpioPin)
 
 void Motor::calibration()
 {
-    for (int i = 1675; i < 1725; i++)
+    for (int i = 1500; i < 1725; i++)
     {
         gpioServo(mGPIO, i);
         std::cout << "Servo value: " << i << "\n";
-        clock::sleep_milliseconds(1000);
+        clock::sleep_milliseconds(100);
     }
 
     clock::sleep_milliseconds(1000);

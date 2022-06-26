@@ -1,6 +1,10 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+
 #include <iostream>
 
 class Motor

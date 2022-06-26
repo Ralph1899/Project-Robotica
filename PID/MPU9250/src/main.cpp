@@ -53,7 +53,7 @@ int main()
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
     // Creating Servo motor objects for X- and Y-axis
-    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor()*/;
+    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(11)*/;
 
     pServoX->setAngle(2000);
 

@@ -1,14 +1,14 @@
 #include "../inc/motor.h"
 
 Motor::Motor()
-    : mAngle(1000)
+    : mAngle(0)
 {
     std::cout << "Default ";
     setupServo(4);
 }
 
 Motor::Motor(int gpioPin)
-    : mAngle(1000)
+    : mAngle(0)
 {
     setupServo(gpioPin);
 }

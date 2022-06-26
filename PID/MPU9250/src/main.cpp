@@ -54,13 +54,14 @@ int main()
 
     // Creating Servo motor objects for X- and Y-axis
     Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(11)*/;
-
+    pServoX->setRange(500, 1675);
+    
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 
     // Creating PID objects for X-, Y- and Z-axis
     PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
-    
+
     //pPIDX->setP(45);
     //pPIDX->setI(0.002);
     //pPIDX->setD(2);

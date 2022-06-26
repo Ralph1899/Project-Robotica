@@ -53,6 +53,12 @@ void Motor::setRange(int minimum, int maximum)
 {
     mMinimum = minimum;
     mMaximum = maximum;
+
+    // Visualizing the values
+    gpioServo(mGPIO, mMinimum);
+    clock::sleep_milliseconds(100);
+    gpioServo(mGPIO, mMaximum);
+    clock::sleep_milliseconds(100);
 }
 
 void Motor::setGpioPin(int gpioPin)

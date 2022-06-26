@@ -19,7 +19,7 @@ void Motor::setupServo(int gpioPin)
     mGPIO = gpioPin;
     std::cout << "Setting servo to starting angle " << mAngle << "!\n";
     updateServo();
-
+    calibration();
 }
 
 void Motor::calibration()

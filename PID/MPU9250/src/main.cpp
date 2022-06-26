@@ -55,8 +55,6 @@ int main()
     // Creating Servo motor objects for X- and Y-axis
     Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(11)*/;
 
-    pServoX->setAngle(2000);
-
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 

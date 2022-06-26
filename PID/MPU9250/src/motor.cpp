@@ -24,7 +24,7 @@ void Motor::setupServo(int gpioPin)
 
 void Motor::calibration()
 {
-    for (int i = 1700; i < 1725; i++)
+    for (int i = 1675; i < 1725; i++)
     {
         gpioServo(mGPIO, i);
         std::cout << "Servo value: " << i << "\n";

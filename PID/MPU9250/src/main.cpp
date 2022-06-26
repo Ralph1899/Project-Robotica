@@ -115,7 +115,7 @@ int main()
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
     double dT;
-    
+
     double compRoll, compPitch/*, gyroYaw*/;
 
     while (true)
@@ -138,7 +138,6 @@ int main()
         double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
         double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
-    
 
         // Angle from Kalman
         double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
@@ -156,7 +155,7 @@ int main()
         //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
 
         //std::cout << "roll    : " << roll << std::endl;
-        std::cout << "compRoll: " << compRoll << std::endl;
+        std::cout << "kalRoll : " << kalRoll << std::endl;
         //std::cout << "x       : " << x << std::endl;
         //std::cout << std::endl;
 

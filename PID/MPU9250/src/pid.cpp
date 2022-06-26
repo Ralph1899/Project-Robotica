@@ -38,7 +38,7 @@ int PID::getMotorDelay()
     return mMotorDelay;
 }
 
-void PID::runPID(double filteredInput, double desiredAngle, double dT)
+float PID::runPID(double filteredInput, double desiredAngle, double dT)
 {
     float kp, ki, kd, k_pid;
 
@@ -68,4 +68,5 @@ void PID::runPID(double filteredInput, double desiredAngle, double dT)
     if(mMotorDelay < 1000)
         mMotorDelay = 1000;
 
+    return k_pid;
 }

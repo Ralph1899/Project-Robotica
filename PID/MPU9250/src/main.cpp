@@ -41,7 +41,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cerr << "Main: : " << e.what() << '\n';
+        std::cerr << "Main : " << e.what() << '\n';
     }
     
     
@@ -55,7 +55,7 @@ int main()
     // Creating Servo motor objects for X- and Y-axis
     Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(11)*/;
     pServoX->setRange(500, 1675);
-    
+
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 
@@ -151,9 +151,13 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        pPIDX->runPID(kalRoll, desiredAngleX, dT);
-        pPIDY->runPID(kalPitch, desiredAngleY, dT);
+        float x = pPIDX->runPID(kalRoll, desiredAngleX, dT);
+        //pPIDY->runPID(kalPitch, desiredAngleY, dT);
         //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
+
+        std::cout << "roll    : " << roll << std::endl;
+        std::cout << "compRoll: " << compRoll << std::endl;
+        std::cout << "x       : " << x << std::endl;
 
         clock::sleep_milliseconds(100);
     }

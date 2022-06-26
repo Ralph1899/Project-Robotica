@@ -21,7 +21,9 @@ public:
 
     void setRange(int minimum, int maximum);
     void setGpioPin(int gpioPin);
-    void setAngle(int angle);
+    void setAngle(int newAngle);
+
+    int getAngle();
 };
 
 #endif // !MOTOR_H

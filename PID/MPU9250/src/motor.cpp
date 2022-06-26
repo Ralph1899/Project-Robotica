@@ -36,8 +36,22 @@ void Motor::setGpioPin(int gpioPin)
     mGPIO = gpioPin;
 }
 
-void Motor::setAngle(int angle)
+void Motor::setAngle(int newAngle)
 {
-    mAngle = angle;
-    updateServo();
+    try
+    {
+        if((newAngle < mMinimum) || (newAngle > mMaximum))
+            throw std::invalid_argument("Angle outside given range");
+        mAngle = newAngle;
+        updateServo();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Motor : " << e.what() << '\n';
+    }
+}
+
+int Motor::getAngle()
+{
+    return mAngle;
 }

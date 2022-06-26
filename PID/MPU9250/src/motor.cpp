@@ -25,17 +25,6 @@ void Motor::setupServo(int gpioPin)
 
 void Motor::calibration()
 {
-    for (int i = 1500; i < 1725; i++)
-    {
-        gpioServo(mGPIO, i);
-        std::cout << "Servo value: " << i << "\n";
-        clock::sleep_milliseconds(100);
-    }
-
-    clock::sleep_milliseconds(1000);
-    std::cout << "\n\nMax servo value, returning to start\n\n"; 
-    clock::sleep_milliseconds(1000);
-
     for (int i = 510; i > 490; i--)
     {
         gpioServo(mGPIO, i);

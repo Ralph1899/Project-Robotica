@@ -5,10 +5,16 @@ class Motor
 {
 private:
     int mGPIO;
+    int mAngle;
+    void setupServo(int gpioPin);
+    void updateServo();
 public:
     Motor();
-    Motor(int GpioPin);
+    Motor(int gpioPin);
     ~Motor() { };
+
+    void setGpioPin(int gpioPin);
+    void setAngle(int angle);
 };
 
 #endif // !MOTOR_H

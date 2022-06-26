@@ -34,12 +34,28 @@ double calculate_pitch(double accX, double accY, double accZ)
 
 int main()
 {
+    try
+    {
+        if(gpioInitialise() < 0)
+            throw std::invalid_argument("pigpio.h failed");
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Main: : " << e.what() << '\n';
+    }
+    
+    
     // Desired angles, can be changed to tilt balance platform
     int desiredAngleX = 0, desiredAngleY = 0/*desiredAngleZ = 0*/; 
 
     // Reserving static memory for IMU sensor to write data to
     double *pSensorBuffer = new double[6]; // When only accelorometer is used
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
+
+    // Creating Servo motor objects for X- and Y-axis
+    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor()*/;
+
+    pServoX->setAngle(2000);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;

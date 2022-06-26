@@ -4,9 +4,6 @@ MPU_9250::MPU_9250()
 {
     try
     {
-        if(gpioInitialise() < 0)
-            throw std::invalid_argument("pigpio.h failed");
-
         accel_gyro_handler = i2cOpen(I2C_DEVICE, I2C_DEVICE_ADDR, I2C_FLAGS);
         if(accel_gyro_handler < 0)
             throw std::invalid_argument("Failed communication to IMU");

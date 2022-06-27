@@ -182,6 +182,7 @@ int main()
 
     std::cout << "\n\n#####################################\n";
     std::cout << "Setting Servos back to middle of range!\n";
+    std::cout << pServoX->getMidpoint() << std::endl;
     pServoX->setAngle(pServoX->getMidpoint());
     pServoY->setAngle(pServoY->getMidpoint());
     std::cout << "Tidying up used GPIO pins!\n";

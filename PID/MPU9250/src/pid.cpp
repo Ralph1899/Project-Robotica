@@ -67,7 +67,7 @@ void PID::setThreshold(double KiThreshold)
     }
 }
 
-void PID::runPID(double filteredInput, double dT)
+float PID::runPID(double filteredInput, double dT)
 {
     // PID = PID_p + PID_i + PID_d
     // PID_p = Kp * error
@@ -97,4 +97,6 @@ void PID::runPID(double filteredInput, double dT)
     
     // PID = PID_p + PID_i + PID_d    
     PID = PID_p + PID_i + PID_d;
+
+    return PID;
 }

@@ -23,7 +23,7 @@ public:
     void setDesiredAngle(double desiredAngle);
     void setThreshold(double KiThreshold);
 
-    void runPID(double filteredInput, double dT);
+    float runPID(double filteredInput, double dT);
 };
 
 #endif // !PID_H

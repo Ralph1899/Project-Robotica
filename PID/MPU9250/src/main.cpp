@@ -120,7 +120,6 @@ int main()
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
-    std::chrono::steady_clock::time_point lastMotorDelay = clock::current_time_ms();
     double dT;
 
     double compRoll, compPitch/*, gyroYaw*/;
@@ -157,7 +156,7 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        pPIDX->runPID(kalRoll, dT);
+        float x = pPIDX->runPID(kalRoll, dT);
         //pPIDY->runPID(kalPitch, dT);
         //pPIDZ->runPID(gyroYaw, dT);
 
@@ -165,12 +164,6 @@ int main()
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         std::cout << "MotorDelay: " << pPIDX->getMotorDelay() << std::endl;
         //std::cout << std::endl;
-
-        if (clock::time_difference_ms(lastMotorDelay) > pPIDX->getMotorDelay())
-        {
-            std::cout << "\n\nWould run function now\n\n";
-            lastMotorDelay = clock::current_time_ms();
-        }
     }
 
     std::cout << "\n\n##############################\n";

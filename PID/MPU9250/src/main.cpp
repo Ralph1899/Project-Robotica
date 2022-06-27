@@ -62,6 +62,10 @@ int main()
     Motor *pServoX = new Motor(4), *pServoY = new Motor(17);
     pServoX->setRange(500, 1675);
     pServoY->setRange(500, 1675);
+    pServoY->setAngle(500);
+    clock::sleep_milliseconds(3000);
+    pServoY->setAngle(1675);
+    clock::sleep_milliseconds(3000);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
@@ -170,8 +174,8 @@ int main()
 
 
         // Run the motors based on PID results
-        pServoX->setAngle((pServoX->getAngle() + x));
-        pServoY->setAngle((pServoY->getAngle() - y));
+        //pServoX->setAngle((pServoX->getAngle() + x));
+        //pServoY->setAngle((pServoY->getAngle() - y));
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         //std::cout << "PID value: " << x << std::endl;

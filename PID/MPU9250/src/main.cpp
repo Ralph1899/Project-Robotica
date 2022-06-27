@@ -64,7 +64,7 @@ int main()
     pServoY->setRange(500, 1675);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
-    Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
+    //Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 
     // Creating PID objects for X-, Y- and Z-axis
     PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
@@ -129,7 +129,7 @@ int main()
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
     double dT;
 
-    double compRoll, compPitch/*, gyroYaw*/;
+    //double compRoll, compPitch/*, gyroYaw*/;
     
     clock::sleep_milliseconds(2000);
     while (isRunning)
@@ -137,7 +137,7 @@ int main()
         // Send trigger to sensor to update values in memory
         pSensor->getSensorReading();
 
-        // Know the delta in time since previous time (in ms)
+        // Know the passed time since previous measurement (dT in ms)
         dT = clock::time_difference_ms(timer) / 1000; // deviding by 1000 for value in seconds (needed in kalman)
         timer = clock::current_time_ms(); // Updating the current time
 
@@ -149,8 +149,8 @@ int main()
         //yaw = calculate_yaw(*pMagneX, *pMagneY);
 
         // Angle from gyro
-        double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
-        double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
+        //double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
+        //double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
 
         // Angle from Kalman
@@ -170,8 +170,8 @@ int main()
 
 
         // Run the motors based on PID results
-        //pServoX->setAngle((pServoX->getAngle() + x));
-        //pServoY->setAngle((pServoY->getAngle() - y));
+        pServoX->setAngle((pServoX->getAngle() + x));
+        pServoY->setAngle((pServoY->getAngle() - y));
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         //std::cout << "PID value: " << x << std::endl;

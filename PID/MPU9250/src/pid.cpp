@@ -42,7 +42,7 @@ void PID::setDesiredAngle(double desiredAngle)
     {
         if((desiredAngle < -mMaxDegrees) || (desiredAngle > mMaxDegrees))
         {
-            std::string errorString = "Desired angle cannot exceed " + (std::string)mMaxDegrees + " degrees!";
+            std::string errorString = "Desired angle cannot exceed " + std::to_string(mMaxDegrees) + " degrees!";
             throw std::invalid_argument(errorString);
         }
         mDesiredAngle = desiredAngle;

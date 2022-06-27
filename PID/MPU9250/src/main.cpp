@@ -71,18 +71,24 @@ int main()
     //pPIDX->setP(45);
     //pPIDX->setI(0.002);
     //pPIDX->setD(2);
-    pPIDX->setPID(45, 0.002, 2, 0);
+    pPIDX->setPID(45, 0.002, 2);
+    pPIDX->setDesiredAngle(0);
+    pPIDX->setThreshold(5);
 
     //pPIDY->setP(35);
     //pPIDY->setI(0.002);
     //pPIDY->setD(1.5);
-    pPIDY->setPID(35, 0.002, 1.5, 0);
+    pPIDY->setPID(35, 0.002, 1.5);
+    pPIDY->setDesiredAngle(0);
+    pPIDY->setThreshold(5);
 
     //pPIDZ->setP(10);
     //pPIDZ->setI(0.00);
     //pPIDZ->setD(10);
     //pPIDZ->setPID(10, 0.00, 10);
-
+    //pPIDZ->setDesiredAngle(0);
+    //pPIDZ->setThreshold(5);
+    
     // Setting up the MPU9250 sensor class
     MPU_9250 *pSensor = new MPU_9250();
     pSensor->setAccelSensitivity(ACCEL_SENSITIVITY_2G); // Setting sensitivity to 2G (2/4/8/16G is possible)

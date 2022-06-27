@@ -168,8 +168,6 @@ int main()
         std::cout << "kalRoll : " << kalRoll << std::endl;
         //std::cout << "x       : " << x << std::endl;
         //std::cout << std::endl;
-
-        clock::sleep_milliseconds(1000);
     }
 
     std::cout << "\n\n##############################\n";

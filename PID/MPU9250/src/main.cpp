@@ -68,7 +68,7 @@ int main()
     // Creating PID objects for X-, Y- and Z-axis
     PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
 
-    //pPIDX->setP(45);
+    //pPIDX->setP(10);
     //pPIDX->setI(0.002);
     //pPIDX->setD(2);
     pPIDX->setPID(10, 0, 0);
@@ -163,7 +163,7 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        float x = pPIDX->runPID(kalRoll, dT);
+        float x = pPIDX->runPID(roll, dT);
         //pPIDY->runPID(kalPitch, dT);
         //pPIDZ->runPID(gyroYaw, dT);
 

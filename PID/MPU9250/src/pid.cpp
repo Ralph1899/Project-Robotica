@@ -1,10 +1,18 @@
 #include "../inc/pid.h"
 
 PID::PID()
-    : mKp(0), mKi(0), mKd(0), mError(0) { }
+{ 
+    setPID(0, 0, 0);
+    setDesiredAngle(0);
+    setThreshold(1);
+}
 
-PID::PID(double Kp, double Ki, double Kd)
-    : mKp(Kp), mKi(Ki), mKd(Kd), mError(0) { }
+PID::PID(double Kp, double Ki, double Kd, double desiredAngle, double KiThreshold)
+{
+    setPID(Kp, Ki, Kd);
+    setDesiredAngle(desiredAngle);
+    setThreshold(KiThreshold);
+}
 
 void PID::setP(double Kp)
 {
@@ -23,48 +31,70 @@ void PID::setD(double Kd)
 
 void PID::setPID(double Kp, double Ki, double Kd)
 {
-    mKp = Kp;
-    mKi = Ki;
-    mKd = Kd;
+    setP(Kp);
+    setI(Ki);
+    setD(Kd);
 }
 
-int PID::getStep()
+void PID::setDesiredAngle(double desiredAngle)
 {
-    return mStep;
+    try
+    {
+        if((desiredAngle < -mMaxDegrees) || (desiredAngle > mMaxDegrees))
+        {
+            std::string errorString = "Desired angle cannot exceed " + mMaxDegrees + " degrees!";
+            throw std::invalid_argument(errorString);
+        }
+        mDesiredAngle = desiredAngle;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "PID : " << e.what() << '\n';
+    }
 }
 
-int PID::getMotorDelay()
+void PID::setThreshold(double KiThreshold)
 {
-    return mMotorDelay;
+    try
+    {
+        if(KiThreshold == 0)
+            throw std::invalid_argument("Threshold cannot be zero!");
+        mThreshold = KiThreshold;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "PID : " << e.what() << '\n';
+    }
 }
 
-void PID::runPID(double filteredInput, double desiredAngle, double dT)
+void PID::runPID(double filteredInput, double dT)
 {
-    float kp, ki, kd, k_pid;
+    // PID = PID_p + PID_i + PID_d
+    // PID_p = Kp * error
+    // PID_i = PID_i + (Ki * error)
+    // PID_d = Kd * (error - previousError) / deltaTime
 
-    float error = filteredInput - desiredAngle;
-    kp = mKp * error;
+    float PID, PID_p, PID_i, PID_d;
+    float currentError = filteredInput - mDesiredAngle;
 
-    if((error < 5) && (error > -5))
-        ki += (mKi * error);
-    else
-        ki = 0;
+    // PID_p = Kp * error
+    PID_p = mKp * currentError;
 
-    kd = mKd * ((error - mError) / dT);
-    mError = error;
-
-    k_pid = kp + ki + kd;
-
-    if(error > 0)
-        mStep = -1;
-    else
-        mStep = 1;
-
-    if((k_pid < 5) && (k_pid > -5))
-        mMotorDelay = 100;
-    else
-        mMotorDelay = abs(mMotorDelay - abs(k_pid));
+    // Ki part is only used if the error reading is between a given threshold.
+    // When error is not between the threshold, Ki part is zero.
+    PID_i = 0;
+    // PID_i = PID_i + (Ki * error) -> Only if error is between a given threshold
+    if((currentError < mThreshold) && (currentError > -mThreshold))
+        // Overwrite the 0 value
+        PID_i = mStoredPID_i + (mKi * currentError);
     
-    if(mMotorDelay < 1)
-        mMotorDelay = 1;
+    // PID_d = Kd * (error - previousError) / deltaTime
+    PID_d = mKd * (currentError - mLastError) / dT;
+
+    // Saving the values of currentError and PID_i so they can be used in next call
+    mLastError = currentError;
+    mStoredPID_i = PID_i;
+    
+    // PID = PID_p + PID_i + PID_d    
+    PID = PID_p + PID_i + PID_d;
 }

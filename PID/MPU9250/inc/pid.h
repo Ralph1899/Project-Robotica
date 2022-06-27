@@ -1,27 +1,29 @@
 #ifndef PID_H
 #define PID_H
 
+#include <iostream>
+#include <string>
 #include <math.h>
 
 class PID
 {
 private:
-    double mKp, mKi, mKd;
-    float mError;
-    int mStep, mMotorDelay;
+    int mMaxDegrees = 10; // Depending on machine config and physical surroundings
+    double mKp, mKi, mKd, mDesiredAngle, mThreshold;
+    float mLastError = 0, mStoredPID_i = 0;
 public:
     PID();
-    PID(double Kp, double Ki, double Kd);
+    PID(double Kp, double Ki, double Kd, double desiredAngle, double KiThreshold);
     ~PID() { };
 
     void setP(double Kp);
     void setI(double Ki);
     void setD(double Kd);
     void setPID(double Kp, double Ki, double Kd);
-    int getStep();
-    int getMotorDelay();
+    void setDesiredAngle(double desiredAngle);
+    void setThreshold(double KiThreshold);
 
-    void runPID(double filteredInput, double desiredAngle, double dT);
+    void runPID(double filteredInput, double dT);
 };
 
 #endif // !PID_H

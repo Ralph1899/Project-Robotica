@@ -4,6 +4,8 @@
 */
 
 #include <iostream>
+#include <pigpio.h>
+#include <signal.h>
 
 #include "../inc/sensor.h"
 #include "../inc/clock.h"
@@ -13,6 +15,13 @@
 
 #define M_PI 3.14159265358979323846  /* pi */
 #define RAD_TO_DEG 57.29577951308233 /* 180 / pi */
+
+bool isRunning = true;
+
+void stopProgram(int signum)
+{
+    isRunning = false;
+}
 
 double calculate_roll(double accX, double accY, double accZ)
 {
@@ -38,6 +47,7 @@ int main()
     {
         if(gpioInitialise() < 0)
             throw std::invalid_argument("pigpio.h failed");
+        gpioSetSignalFunc(SIGINT, stopProgram); // Setting the handler when CTRL+C is being pressed
     }
     catch(const std::exception& e)
     {
@@ -53,7 +63,7 @@ int main()
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
     // Creating Servo motor objects for X- and Y-axis
-    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(11)*/;
+    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(17)*/;
     pServoX->setRange(500, 1675);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
@@ -118,7 +128,7 @@ int main()
 
     double compRoll, compPitch/*, gyroYaw*/;
 
-    while (true)
+    while (isRunning)
     {
         // Send trigger to sensor to update values in memory
         pSensor->getSensorReading();
@@ -161,6 +171,9 @@ int main()
 
         clock::sleep_milliseconds(1000);
     }
+
+    std::cout << "Tidying up used GPIO pins!\n";
+    gpioTerminate();
 
     return 0;
 }

@@ -78,7 +78,7 @@ int main()
     //pPIDY->setP(35);
     //pPIDY->setI(0.002);
     //pPIDY->setD(1.5);
-    pPIDY->setPID(35, 0.002, 1.5);
+    pPIDY->setPID(2, 0, 0);
     pPIDY->setDesiredAngle(0);
     pPIDY->setThreshold(5);
 

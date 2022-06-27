@@ -61,10 +61,10 @@ void PID::runPID(double filteredInput, double desiredAngle, double dT)
         mStep = 1;
 
     if((k_pid < 5) && (k_pid > -5))
-        mMotorDelay = 100000;
+        mMotorDelay = 100;
     else
         mMotorDelay = abs(mMotorDelay - abs(k_pid));
     
-    if(mMotorDelay < 1000)
-        mMotorDelay = 1000;
+    if(mMotorDelay < 1)
+        mMotorDelay = 1;
 }

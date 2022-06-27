@@ -171,7 +171,7 @@ int main()
 
         // Run the motors based on PID results
         pServoX->setAngle((pServoX->getAngle() - x));
-        pServoY->setAngle((pServoY->getAngle() + y));
+        pServoY->setAngle((pServoY->getAngle() - y));
         //pServoZ->setAngle((pServoZ->getAngle() + z));
         clock::sleep_milliseconds(10);
 

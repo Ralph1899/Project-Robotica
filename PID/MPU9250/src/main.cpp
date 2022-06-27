@@ -166,7 +166,7 @@ int main()
         pServoX->setAngle((pServoX->getAngle() + x)); // Servo is stationed as pulling so needs increment
         pServoY->setAngle((pServoY->getAngle() - y)); // Servo is stationed as pushing so needs decrement
         //pServoZ->setAngle((pServoZ->getAngle() + z));
-        clock::sleep_milliseconds(10); // Give time for hardware to recalibrate
+        clock::sleep_milliseconds(10); // Give time for hardware to recalibrate between each run
 
     }
 

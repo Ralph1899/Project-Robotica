@@ -69,17 +69,17 @@ int main()
     // Creating PID objects for X-, Y- and Z-axis
     PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
 
-    //pPIDX->setP(10);
+    //pPIDX->setP(2);
     //pPIDX->setI(0.002);
     //pPIDX->setD(2);
-    pPIDX->setPID(2, 0, 0);
+    pPIDX->setPID(0, 0, 50);
     pPIDX->setDesiredAngle(0);
     pPIDX->setThreshold(5);
 
-    //pPIDY->setP(35);
+    //pPIDY->setP(2);
     //pPIDY->setI(0.002);
     //pPIDY->setD(1.5);
-    pPIDY->setPID(2, 0, 0);
+    pPIDY->setPID(0, 0, 50);
     pPIDY->setDesiredAngle(0);
     pPIDY->setThreshold(5);
 

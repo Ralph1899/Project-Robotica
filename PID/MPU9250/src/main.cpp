@@ -169,11 +169,13 @@ int main()
 
 
         // Run the motors based on PID results
-        //pServoX->setAngle((pServoX->getAngle() + x));
+        pServoX->setAngle((pServoX->getAngle() + x));
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;
+        clock::sleep_milliseconds(20);
+
     }
 
     std::cout << "\n\n##############################\n";

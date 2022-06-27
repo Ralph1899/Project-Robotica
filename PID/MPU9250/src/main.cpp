@@ -121,8 +121,8 @@ int main()
     // Source ->
     //double yaw = calculate_yaw(*pMagneX, *pMagneY);
 
-    pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
-    pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
+    //pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
+    //pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
     //pKalmanZ->setAngle(yaw); // Setting the initial Kalman angle for the Z-axis
 
     // After initalizing, setting timer to current time

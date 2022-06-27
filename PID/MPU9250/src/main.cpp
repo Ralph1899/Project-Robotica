@@ -164,8 +164,8 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        float x = pPIDX->runPID(roll, dT);
-        float y = pPIDY->runPID(pitch, dT);
+        float x = pPIDX->runPID(kalRoll, dT);
+        float y = pPIDY->runPID(kalPitch, dT);
         //float z = pPIDZ->runPID(gyroYaw, dT);
 
 

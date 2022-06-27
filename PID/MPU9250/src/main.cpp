@@ -59,8 +59,9 @@ int main()
     //double *pSensorBuffer = new double[9]; // When magnetometer is implemented
 
     // Creating Servo motor objects for X- and Y-axis
-    Motor *pServoX = new Motor(4)/*, *pServoY = new Motor(17)*/;
+    Motor *pServoX = new Motor(4), *pServoY = new Motor(17);
     pServoX->setRange(500, 1675);
+    pServoY->setRange(500, 1675);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
     Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
@@ -153,26 +154,27 @@ int main()
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
 
         // Angle from Kalman
-        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
-        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+        //double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
+        //double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
         // Angle from comp.
-        compRoll = (0.96 * (compRoll + *pGyrosY * dT) + 0.04 * roll);
-        compPitch = (0.96 * (compPitch + *pGyrosX * dT) + 0.04 * pitch);
+        //compRoll = (0.96 * (compRoll + *pGyrosY * dT) + 0.04 * roll);
+        //compPitch = (0.96 * (compPitch + *pGyrosX * dT) + 0.04 * pitch);
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
         float x = pPIDX->runPID(roll, dT);
-        //pPIDY->runPID(kalPitch, dT);
+        float y = pPIDY->runPID(pitch, dT);
         //pPIDZ->runPID(gyroYaw, dT);
 
 
         // Run the motors based on PID results
         pServoX->setAngle((pServoX->getAngle() + x));
+        pServoY->setAngle((pServoY->getAngle() + y));
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
-        std::cout << "PID value: " << x << std::endl;
+        //std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;
         clock::sleep_milliseconds(10);
 

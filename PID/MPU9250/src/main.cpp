@@ -164,13 +164,13 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        float x = pPIDX->runPID(kalRoll, dT);
-        float y = pPIDY->runPID(kalPitch, dT);
+        float x = pPIDX->runPID(roll, dT);
+        float y = pPIDY->runPID(pitch, dT);
         //float z = pPIDZ->runPID(gyroYaw, dT);
 
 
         // Run the motors based on PID results
-        pServoX->setAngle((pServoX->getAngle() - x));
+        pServoX->setAngle((pServoX->getAngle() + x));
         pServoY->setAngle((pServoY->getAngle() - y));
         //pServoZ->setAngle((pServoZ->getAngle() + z));
         clock::sleep_milliseconds(10);

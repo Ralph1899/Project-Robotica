@@ -73,7 +73,7 @@ int main()
     //pPIDX->setD(2);
     pPIDX->setPID(10, 0, 0);
     pPIDX->setDesiredAngle(0);
-    pPIDX->setThreshold(1);
+    pPIDX->setThreshold(5);
 
     //pPIDY->setP(35);
     //pPIDY->setI(0.002);

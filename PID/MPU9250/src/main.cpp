@@ -162,7 +162,7 @@ int main()
 
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
-        std::cout << "MotorDelay: " << pPIDX->getMotorDelay() << std::endl;
+        std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;
     }
 

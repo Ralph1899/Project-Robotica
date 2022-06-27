@@ -166,7 +166,7 @@ int main()
         //pPIDY->runPID(kalPitch, dT);
         //pPIDZ->runPID(gyroYaw, dT);
 
-        //std::cout << "roll    : " << roll << std::endl;
+        std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;

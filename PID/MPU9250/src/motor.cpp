@@ -55,3 +55,8 @@ int Motor::getAngle()
 {
     return mAngle;
 }
+
+int Motor::getMidpoint()
+{
+    return ((mMinimum + mMaximum) / 2);
+}

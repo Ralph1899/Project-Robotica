@@ -24,6 +24,7 @@ public:
     void setAngle(int newAngle);
 
     int getAngle();
+    int getMidpoint();
 };
 
 #endif // !MOTOR_H

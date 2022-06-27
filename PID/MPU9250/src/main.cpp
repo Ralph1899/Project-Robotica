@@ -180,10 +180,13 @@ int main()
 
     }
 
-    std::cout << "\n\n##############################\n";
+    std::cout << "\n\n#####################################\n";
+    std::cout << "Setting Servos back to middle of range!\n";
+    pServoX->setAngle(pServoX->getMidpoint());
+    pServoY->setAngle(pServoY->getMidpoint());
     std::cout << "Tidying up used GPIO pins!\n";
     gpioTerminate();
     std::cout << "GPIO is terminated!\n";
-    std::cout << "##############################\n\n";
+    std::cout << "#####################################\n\n";
     return 0;
 }

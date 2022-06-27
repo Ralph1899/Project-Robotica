@@ -64,7 +64,7 @@ int main()
     pServoY->setRange(500, 1675);
 
     // Creating Kalman filter objects for X-, Y- and Z-axis
-    //Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
+    Kalman *pKalmanX = new Kalman(), *pKalmanY = new Kalman()/*, *pKalmanZ = new Kalman()*/;
 
     // Creating PID objects for X-, Y- and Z-axis
     PID *pPIDX = new PID(), *pPIDY = new PID()/*, *pPIDZ = new PID()*/;
@@ -121,8 +121,8 @@ int main()
     // Source ->
     //double yaw = calculate_yaw(*pMagneX, *pMagneY);
 
-    //pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
-    //pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
+    pKalmanX->setAngle(roll); // Setting the initial Kalman angle for the X-axis
+    pKalmanY->setAngle(pitch); // Setting the initial Kalman angle for the Y-axis
     //pKalmanZ->setAngle(yaw); // Setting the initial Kalman angle for the Z-axis
 
     // After initalizing, setting timer to current time
@@ -149,13 +149,13 @@ int main()
         //yaw = calculate_yaw(*pMagneX, *pMagneY);
 
         // Angle from gyro
-        //double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
-        //double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
+        double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
+        double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
 
         // Angle from Kalman
-        //double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
-        //double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
+        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
         // Angle from comp.

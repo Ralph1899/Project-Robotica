@@ -21,7 +21,7 @@ public:
     int getStep();
     int getMotorDelay();
 
-    float runPID(double filteredInput, double desiredAngle, double dT);
+    void runPID(double filteredInput, double desiredAngle, double dT);
 };
 
 #endif // !PID_H

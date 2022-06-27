@@ -160,13 +160,13 @@ int main()
         //gyroYaw = (gyroYaw + (pGyrosZ * dT));
 
         // Calculate PID values for each axis
-        float x = pPIDX->runPID(kalRoll, desiredAngleX, dT);
+        pPIDX->runPID(kalRoll, desiredAngleX, dT);
         //pPIDY->runPID(kalPitch, desiredAngleY, dT);
         //pPIDZ->runPID(gyroYaw, desiredAngleZ, dT);
 
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
-        std::cout << "x       : " << x << std::endl;
+        std::cout << "MotorDelay: " << pPIDX->getMotorDelay() << std::endl;
         //std::cout << std::endl;
     }
 

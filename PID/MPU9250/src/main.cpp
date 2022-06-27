@@ -21,9 +21,6 @@ bool isRunning = true;
 void stopProgram(int signum)
 {
     isRunning = false;
-    std::cout << "\n\n##############################\n";
-    std::cout << "  Tidying up used GPIO pins!\n";
-    std::cout << "##############################\n\n";
 }
 
 double calculate_roll(double accX, double accY, double accZ)
@@ -172,9 +169,12 @@ int main()
         //std::cout << "x       : " << x << std::endl;
         //std::cout << std::endl;
 
-        clock::sleep_milliseconds(10);
+        clock::sleep_milliseconds(1000);
     }
 
+    std::cout << "\n\n##############################\n";
+    std::cout << "  Tidying up used GPIO pins!\n";
+    std::cout << "##############################\n\n";
     gpioTerminate();
 
     return 0;

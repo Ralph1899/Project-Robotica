@@ -124,10 +124,11 @@ int main()
 
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
+    std::chrono::steady_clock::time_point lastMotorDelay = clock::current_time_ms();
     double dT;
 
     double compRoll, compPitch/*, gyroYaw*/;
-
+    
     while (isRunning)
     {
         // Send trigger to sensor to update values in memory
@@ -168,6 +169,12 @@ int main()
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         std::cout << "MotorDelay: " << pPIDX->getMotorDelay() << std::endl;
         //std::cout << std::endl;
+
+        if (clock::time_difference_ms(lastMotorDelay) > pPIDX->getMotorDelay())
+        {
+            std::cout << "\n\nWould run function now\n\n";
+            lastMotorDelay = clock::current_time_ms();
+        }
     }
 
     std::cout << "\n\n##############################\n";

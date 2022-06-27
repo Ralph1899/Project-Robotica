@@ -166,9 +166,12 @@ int main()
         //pPIDY->runPID(kalPitch, dT);
         //pPIDZ->runPID(gyroYaw, dT);
 
-        std::cout << "roll    : " << roll << std::endl;
+
+        // Run the motors based on PID results
+        pServoX->setAngle((pServoX->getAngle() - x));
+        //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
-        std::cout << "PID value: " << x << std::endl;
+        //std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;
     }
 

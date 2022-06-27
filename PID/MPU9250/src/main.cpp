@@ -154,8 +154,8 @@ int main()
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
 
         // Angle from Kalman
-        double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
-        double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
+        //double kalRoll = pKalmanX->getAngle(roll, gyroXrate, dT);
+        //double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
         // Angle from comp.

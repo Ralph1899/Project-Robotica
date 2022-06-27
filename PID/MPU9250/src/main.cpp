@@ -71,7 +71,7 @@ int main()
     //pPIDX->setP(10);
     //pPIDX->setI(0.002);
     //pPIDX->setD(2);
-    pPIDX->setPID(2, 0, 0);
+    pPIDX->setPID(5, 0, 0);
     pPIDX->setDesiredAngle(0);
     pPIDX->setThreshold(5);
 
@@ -174,7 +174,7 @@ int main()
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         std::cout << "PID value: " << x << std::endl;
         //std::cout << std::endl;
-        clock::sleep_milliseconds(20);
+        clock::sleep_milliseconds(10);
 
     }
 

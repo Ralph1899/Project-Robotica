@@ -171,7 +171,7 @@ int main()
 
         // Run the motors based on PID results
         pServoX->setAngle((pServoX->getAngle() + x));
-        pServoY->setAngle((pServoY->getAngle() + y));
+        pServoY->setAngle((pServoY->getAngle() - y));
         //std::cout << "roll    : " << roll << std::endl;
         //std::cout << "kalRoll : " << kalRoll << std::endl;
         //std::cout << "PID value: " << x << std::endl;

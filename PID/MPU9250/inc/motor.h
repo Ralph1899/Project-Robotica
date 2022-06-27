@@ -17,7 +17,7 @@ private:
 public:
     Motor();
     Motor(int gpioPin);
-    ~Motor() { };
+    ~Motor() { setAngle(((mMinimum + mMaximum) / 2)); };
 
     void setRange(int minimum, int maximum);
     void setGpioPin(int gpioPin);

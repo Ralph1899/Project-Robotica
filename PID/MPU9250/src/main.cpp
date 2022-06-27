@@ -130,6 +130,7 @@ int main()
 
     double compRoll, compPitch/*, gyroYaw*/;
     
+    clock::sleep_milliseconds(1000);
     while (isRunning)
     {
         // Send trigger to sensor to update values in memory

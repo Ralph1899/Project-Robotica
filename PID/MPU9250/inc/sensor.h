@@ -12,7 +12,7 @@
 class MPU_9250
 {
 private:
-    int accel_gyro_handler, mag_handler, wake_handler, mag_wake_handler;
+    int mAccGyroHandler, mAccGyroWakeHandler, mMagHandler, mMagWakeHandler;
     Accelerometer *pAccel;
     Gyroscope *pGyros;
     double *pMemoryBuffer = nullptr;

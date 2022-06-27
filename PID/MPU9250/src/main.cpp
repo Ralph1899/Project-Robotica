@@ -71,14 +71,14 @@ int main()
 
     //pPIDX->setP(2);
     //pPIDX->setI(0.002);
-    //pPIDX->setD(2);
+    //pPIDX->setD(0.01);
     pPIDX->setPID(2, 0.002, 0.01);
     pPIDX->setDesiredAngle(1);
     pPIDX->setThreshold(3);
 
     //pPIDY->setP(2);
     //pPIDY->setI(0.002);
-    //pPIDY->setD(1.5);
+    //pPIDY->setD(0.01);
     pPIDY->setPID(2, 0.002, 0.01);
     pPIDY->setDesiredAngle(0);
     pPIDY->setThreshold(3);
@@ -128,8 +128,6 @@ int main()
     // After initalizing, setting timer to current time
     std::chrono::steady_clock::time_point timer = clock::current_time_ms();
     double dT;
-
-    //double compRoll, compPitch/*, gyroYaw*/;
     
     clock::sleep_milliseconds(2000);
     while (isRunning)
@@ -149,8 +147,8 @@ int main()
         //yaw = calculate_yaw(*pMagneX, *pMagneY);
 
         // Angle from gyro
-        double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
-        double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
+        //double gyroXrate = (((*pGyrosX) * RAD_TO_DEG) * dT);
+        //double gyroYrate = (((*pGyrosY) * RAD_TO_DEG) * dT);
         //double gyroZrate = (((*pGyrosZ) * RAD_TO_DEG) * dT);
 
         // Angle from Kalman
@@ -158,22 +156,17 @@ int main()
         //double kalPitch = pKalmanY->getAngle(pitch, gyroYrate, dT);
         //double kalYaw = pKalmanZ->getAngle(yaw, gyroZrate, dT);
 
-        // Angle from comp.
-        //compRoll = (0.96 * (compRoll + *pGyrosY * dT) + 0.04 * roll);
-        //compPitch = (0.96 * (compPitch + *pGyrosX * dT) + 0.04 * pitch);
-        //gyroYaw = (gyroYaw + (pGyrosZ * dT));
-
         // Calculate PID values for each axis
         float x = pPIDX->runPID(roll, dT);
         float y = pPIDY->runPID(pitch, dT);
-        //float z = pPIDZ->runPID(gyroYaw, dT);
+        //float z = pPIDZ->runPID(yaw, dT);
 
 
         // Run the motors based on PID results
-        pServoX->setAngle((pServoX->getAngle() + x));
-        pServoY->setAngle((pServoY->getAngle() - y));
+        pServoX->setAngle((pServoX->getAngle() + x)); // Servo is stationed as pulling so needs increment
+        pServoY->setAngle((pServoY->getAngle() - y)); // Servo is stationed as pushing so needs decrement
         //pServoZ->setAngle((pServoZ->getAngle() + z));
-        clock::sleep_milliseconds(10);
+        //clock::sleep_milliseconds(10);
 
     }
 

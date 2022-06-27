@@ -173,9 +173,9 @@ int main()
     }
 
     std::cout << "\n\n##############################\n";
-    std::cout << "  Tidying up used GPIO pins!\n";
-    std::cout << "##############################\n\n";
+    std::cout << "Tidying up used GPIO pins!\n";
     gpioTerminate();
-
+    std::cout << "GPIO is terminated!\n";
+    std::cout << "##############################\n\n";
     return 0;
 }
